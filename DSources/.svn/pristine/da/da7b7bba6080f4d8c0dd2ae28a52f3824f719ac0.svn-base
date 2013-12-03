@@ -1,0 +1,18 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using UDM;
+
+namespace DSources.Parsers
+{
+    internal class ParserCore
+    {
+        void AddNextCellInRow(Cell<Object> cell) { }
+        void AddNextCellInColumn(Cell<Object> cell) { }
+        void ColumnToGoTo() { }
+        void SetColumnTyoe(DataType Type) { }
+        void SetColumnName(String Name) { }
+        void RowToGoTo() { }
+    }
+}

@@ -1,0 +1,5 @@
+C:\Users\Mateusz\Documents\Visual Studio 2012\Projects\DSources\DSourcesModule\bin\Debug\DSourcesModule.dll
+C:\Users\Mateusz\Documents\Visual Studio 2012\Projects\DSources\DSourcesModule\bin\Debug\DSourcesModule.pdb
+C:\Users\Mateusz\Documents\Visual Studio 2012\Projects\DSources\DSourcesModule\obj\Debug\DSourcesModule.dll
+C:\Users\Mateusz\Documents\Visual Studio 2012\Projects\DSources\DSourcesModule\obj\Debug\DSourcesModule.pdb
+C:\Users\Mateusz\Documents\Visual Studio 2012\Projects\DSources\DSourcesModule\obj\Debug\DSourcesModule.csprojResolveAssemblyReference.cache

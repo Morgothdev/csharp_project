@@ -1,0 +1,32 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace DSources.Parsers
+{
+    public class ParserInfo
+    {
+        private LinkedList<ParserArgumentInfo> arguments = new LinkedList<ParserArgumentInfo>();
+        
+        public virtual String ParserName {get; set;}
+        
+        public void AddArgument(ParserArgumentInfo NewArgument)
+        {
+            arguments.AddFirst(NewArgument);
+        }
+
+        public virtual ICollection<ParserArgumentInfo> GetNecessaryArgumentsAsCollection()
+        {
+            return arguments;
+        }
+
+        public ParserArgumentInfo[] GetNecessaryArguments()
+        {
+            return arguments.ToArray<ParserArgumentInfo>();
+        }
+
+
+        
+    }
+}

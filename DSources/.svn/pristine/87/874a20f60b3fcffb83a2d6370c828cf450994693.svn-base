@@ -1,0 +1,106 @@
+﻿using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NMock2;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace DSources.Data
+{
+    //[TestClass]
+    public class CellsIteratorTest
+    {
+
+        Mockery mockery;
+        CellsIteratorImpl tested;
+        DataModel mockedDataModel;
+        Cell c11, c12, c13, c21, c22, c23, c31, c32, c33, c41, c42, c43;
+
+      //  [TestInitialize]
+        public void SetUp()
+        {
+            mockery = new Mockery();
+            tested = new CellsIteratorImpl();
+            mockedDataModel = (DataModel)mockery.NewMock(typeof(DataModel));
+            Expect.AtMost(100).On(mockedDataModel).GetProperty("ColumnsCount").Will(Return.Value(0));
+        }
+
+        //[TestCleanup]
+        public void CleanUp()
+        {
+            mockery.VerifyAllExpectationsHaveBeenMet();
+        }
+
+        //[TestMethod]
+        //[TestCategory("CellsIteratorImpl")]
+        //[TestCategory("Implemented")]
+        public void TestFalseIfNoData()
+        {
+            tested.SetDataModel(mockedDataModel);
+            Assert.IsFalse(tested.HasNextInRow());
+            Assert.IsFalse(tested.HasPreviousInRow());
+            Assert.IsFalse(tested.HasNextInColumn());
+            Assert.IsFalse(tested.HasPreviousInColumn());
+        }
+
+        Cell CreateMockedCell(object value)
+        {
+            Cell result = (Cell)mockery.NewMock(typeof(Cell));
+            Expect.AtMost(10000).On(result).GetProperty("Value").Will(Return.Value(value));
+            Expect.AtMost(10000).On(result).Method("Equals").With(result).Will(Return.Value(true));
+            return result;
+        }
+
+        private Column CreateColumnMockWithSettedNameAndEqualsItself(String name, out Cell c1, out Cell c2, out Cell c3, params string[] names)
+        {
+            Column column = (Column)mockery.NewMock(typeof(Column));
+            Expect.AtMost(100).On(column).GetProperty("Name").Will(Return.Value(name));
+            Expect.AtMost(100).On(column).Method("Equals").With(column).Will(Return.Value(true));
+            c1 = CreateMockedCell(names[0]);
+            c2 = CreateMockedCell(names[1]);
+            c3 = CreateMockedCell(names[2]);
+            Expect.AtMost(100).On(column).Method("CellAt").With(0).Will(Return.Value(c1));
+            Expect.AtMost(100).On(column).Method("CellAt").With(1).Will(Return.Value(c2));
+            Expect.AtMost(100).On(column).Method("CellAt").With(2).Will(Return.Value(c3));
+            Expect.AtMost(100).On(column).GetProperty("CellsCount").Will(Return.Value(3));
+
+            return column;
+        }
+
+        private void FillModelWithColumnsAccesViaElementAt()
+        {
+            Column pierwsza = CreateColumnMockWithSettedNameAndEqualsItself("first", out c11, out c12, out c13, "c11", "c12", "c13");
+            Column druga = CreateColumnMockWithSettedNameAndEqualsItself("second", out c21, out c22, out c23, "c21", "c22", "c23");
+            Column trzecia = CreateColumnMockWithSettedNameAndEqualsItself("third", out c31, out c32, out c33, "c31", "c32", "c33");
+            Column czwarta = CreateColumnMockWithSettedNameAndEqualsItself("fourth", out c41, out c42, out c43, "c41", "c42", "c43");
+            Expect.AtMost(100).On(mockedDataModel).GetProperty("ColumnsCount").Will(Return.Value(4));
+            Expect.AtMost(100).On(mockedDataModel).Method("ColumnAt").With(0).Will(Return.Value(pierwsza));
+            Expect.AtMost(100).On(mockedDataModel).Method("ColumnAt").With(1).Will(Return.Value(druga));
+            Expect.AtMost(100).On(mockedDataModel).Method("ColumnAt").With(2).Will(Return.Value(trzecia));
+            Expect.AtMost(100).On(mockedDataModel).Method("ColumnAt").With(3).Will(Return.Value(czwarta));
+        }
+
+        //[TestCategory("CellsIteratorImpl")]
+        //[TestCategory("Not implemented")]
+        public void TestMovingThroughColumnsInOneRow()
+        {
+            FillModelWithColumnsAccesViaElementAt();
+            tested.SetDataModel(mockedDataModel);
+
+            Assert.IsTrue(tested.HasNextInRow());
+            Assert.AreEqual(tested.NextInRow(), c11);
+            Assert.IsTrue(tested.HasNextInRow());
+            Assert.AreEqual(tested.NextInRow(), c12);
+            Assert.IsTrue(tested.HasNextInRow());
+            Assert.AreEqual(tested.NextInRow(), c13);
+            Assert.IsFalse(tested.HasNextInRow());
+            Assert.IsTrue(tested.HasPreviousInRow());
+            Assert.AreEqual(tested.PreviousInRow(), c13);
+            Assert.IsTrue(tested.HasPreviousInRow());
+            Assert.AreEqual(tested.PreviousInRow(), c12);
+            Assert.IsTrue(tested.HasPreviousInRow());
+            Assert.AreEqual(tested.PreviousInRow(), c11);
+            Assert.IsFalse(tested.HasPreviousInRow());
+            
+        }
+    }
+}

@@ -1,0 +1,38 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DSources.Data
+{
+    public class Cell
+    {
+        public Object Value { get; set; }
+
+        public Cell Clone()
+        {
+            Cell cloned = new Cell();
+            cloned.Value = Value;
+            return cloned;
+        }
+
+        // override object.Equals
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType())
+            {
+                return false;
+            }
+
+            return Value.Equals(((Cell)obj).Value);
+        }
+
+        // override object.GetHashCode
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
+    }
+}

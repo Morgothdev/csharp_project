@@ -1,0 +1,66 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace DSources.Data
+{
+    public class DataModel
+    {
+        private List<Column> _columns = new List<Column>();
+
+        public int GetColumnsCount()
+        {
+            return _columns.Count;
+        }
+
+        public void AddColumnsAtBegin(List<Column> Columns)
+        {
+            _columns.InsertRange(0, Columns);
+        }
+
+        public Column GetColumnAt(int Index)
+        {
+            return _columns.ElementAt(Index);
+        }
+
+        public void AddColumnsAtEnd(List<Column> Columns)
+        {
+            _columns.InsertRange(_columns.Count, Columns);
+        }
+
+        public void AddColumnsInside(int Index, List<Column> Columns)
+        {
+            _columns.InsertRange(Index, Columns);
+        }
+
+        public IEnumerator<Column> ColumnsIterator()
+        {
+            foreach (Column c in _columns)
+            {
+                yield return c;
+            }
+        }
+
+        public List<Column> Slice(int From, int To)
+        {
+            int IndexFrom = From;
+            int IndexTo = (To>0)?To:(To<0)?_columns.Count+To:_columns.Count;
+            int count = IndexTo-IndexFrom;
+            if (count < 0) { count = 0; }
+            return _columns.GetRange(IndexFrom, count);
+        }
+
+        public List<Column> Slice(int Index)
+        {
+            if (Index < 0)
+            {
+                return Slice(0, -Index);
+            }
+            else
+            {
+                return Slice(Index, 0);
+            }
+        }
+    }
+}

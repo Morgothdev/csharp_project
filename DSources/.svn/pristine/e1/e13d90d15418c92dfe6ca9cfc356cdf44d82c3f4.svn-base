@@ -1,0 +1,303 @@
+﻿using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NMock2;
+using System.Linq;
+using System.Collections.Generic;
+
+namespace DSources.Data
+{
+    [TestClass]
+    public class DataModelTest
+    {
+        Mockery mockery;
+        DataModel tested;
+        Column pierwsza, druga, trzecia, czwarta;
+
+        [TestInitialize]
+        public void SetUp()
+        {
+            mockery = new Mockery();
+            tested = new DataModel();
+        }
+
+        [TestCleanup]
+        public void CleanUp()
+        {
+            mockery.VerifyAllExpectationsHaveBeenMet();
+        }
+
+        private Column CreateColumnMockWithSettedNameAndEqualsItself(String name)
+        {
+            Column druga = (Column)mockery.NewMock(typeof(Column));
+            Expect.AtMost(100).On(druga).GetProperty("Name").Will(Return.Value(name));
+            Expect.AtMost(100).On(druga).Method("Equals").With(druga).Will(Return.Value(true));
+            return druga;
+        }
+
+        [TestMethod]
+        [TestCategory("DataModel")]
+        [TestCategory("Implemented")]
+        public void TestColumnCountIsZero()
+        {
+            //nic nie wstawiamy
+            Assert.AreEqual(0, tested.GetColumnsCount());
+        }
+
+
+        [TestMethod]
+        [TestCategory("DataModel")]
+        [TestCategory("Implemented")]
+        public void TestColumnCountIsNonZero()
+        {
+            List<Column> columns = new List<Column>();
+            columns.Add((Column)mockery.NewMock(typeof(Column)));
+            columns.Add((Column)mockery.NewMock(typeof(Column)));
+            tested.AddColumnsAtBegin(columns);
+            Assert.AreEqual(tested.GetColumnsCount(), 2);
+        }
+
+        [TestMethod]
+        [TestCategory("DataModel")]
+        [TestCategory("Implemented")]
+        public void TestAddingColumnAtEnd()
+        {
+            Column wartownik = CreateColumnMockWithSettedNameAndEqualsItself("wartownik");
+            List<Column> one = new List<Column>();
+            one.Add(wartownik);
+            tested.AddColumnsAtBegin(one);
+            Assert.AreEqual(tested.GetColumnsCount(), 1);
+
+            List<Column> lista = new List<Column>();
+
+            Column pierwsza = CreateColumnMockWithSettedNameAndEqualsItself("one");
+            Column druga = CreateColumnMockWithSettedNameAndEqualsItself("second");
+
+            Expect.AtMost(100).On(druga).Method("Equals").With(pierwsza).Will(Return.Value(false));
+            Expect.AtMost(100).On(pierwsza).Method("Equals").With(druga).Will(Return.Value(false));
+            lista.Add(pierwsza);
+            lista.Add(druga);
+            //Console.WriteLine( + " ");
+            //Assert.AreEqual(lista.IndexOf(pierwsza), 0);
+            //Assert.AreEqual(lista.IndexOf(druga), 1);
+            tested.AddColumnsAtEnd(lista);
+            Assert.AreEqual(tested.GetColumnAt(1), pierwsza);
+            Assert.AreEqual(tested.GetColumnAt(2), druga);
+            Assert.AreEqual(tested.GetColumnAt(0), wartownik);
+            Assert.AreEqual(tested.GetColumnsCount(), 3);
+        }
+
+        [TestMethod]
+        [TestCategory("DataModel")]
+        [TestCategory("Implemented")]
+        public void TestAddingColumnsAtBegin()
+        {
+            Column wartownik = CreateColumnMockWithSettedNameAndEqualsItself("wartownik");
+            List<Column> one = new List<Column>();
+            one.Add(wartownik);
+            tested.AddColumnsAtBegin(one);
+            Assert.AreEqual(tested.GetColumnsCount(), 1);
+
+            List<Column> lista = new List<Column>();
+
+            Column pierwsza = CreateColumnMockWithSettedNameAndEqualsItself("one");
+            Column druga = CreateColumnMockWithSettedNameAndEqualsItself("second");
+
+            Expect.AtMost(100).On(druga).Method("Equals").With(pierwsza).Will(Return.Value(false));
+            Expect.AtMost(100).On(pierwsza).Method("Equals").With(druga).Will(Return.Value(false));
+            lista.Add(pierwsza);
+            lista.Add(druga);
+
+            tested.AddColumnsAtBegin(lista);
+            Assert.AreEqual(tested.GetColumnAt(0), pierwsza);
+            Assert.AreEqual(tested.GetColumnAt(1), druga);
+            Assert.AreEqual(tested.GetColumnAt(2), wartownik);
+            Assert.AreEqual(tested.GetColumnsCount(), 3);
+        }
+
+
+        [TestMethod]
+        [TestCategory("DataModel")]
+        [TestCategory("Implemented")]
+        public void TestAddingColumnsInside()
+        {
+            Column wartownikPierwszy = CreateColumnMockWithSettedNameAndEqualsItself("wartownik1");
+            List<Column> w1 = new List<Column>();
+            w1.Add(wartownikPierwszy);
+            tested.AddColumnsAtBegin(w1);
+            Assert.AreEqual(tested.GetColumnsCount(), 1);
+
+            Column wartownikDrugi = CreateColumnMockWithSettedNameAndEqualsItself("wartownik2");
+
+            List<Column> w2 = new List<Column>();
+            w2.Add(wartownikDrugi);
+            tested.AddColumnsAtEnd(w2);
+            Assert.AreEqual(tested.GetColumnsCount(), 2);
+            Assert.AreEqual(tested.GetColumnAt(0), wartownikPierwszy);
+            Assert.AreEqual(tested.GetColumnAt(1), wartownikDrugi);
+
+            List<Column> lista = new List<Column>();
+
+            Column pierwsza = CreateColumnMockWithSettedNameAndEqualsItself("one");
+            Column druga = CreateColumnMockWithSettedNameAndEqualsItself("second");
+
+            Expect.AtMost(100).On(druga).Method("Equals").With(pierwsza).Will(Return.Value(false));
+            Expect.AtMost(100).On(pierwsza).Method("Equals").With(druga).Will(Return.Value(false));
+            lista.Add(pierwsza);
+            lista.Add(druga);
+
+            tested.AddColumnsInside(1, lista);
+            Assert.AreEqual(tested.GetColumnAt(0), wartownikPierwszy);
+            Assert.AreEqual(tested.GetColumnAt(1), pierwsza);
+            Assert.AreEqual(tested.GetColumnAt(2), druga);
+            Assert.AreEqual(tested.GetColumnAt(3), wartownikDrugi);
+
+            Assert.AreEqual(tested.GetColumnsCount(), 4);
+        }
+
+
+        [TestMethod]
+        [TestCategory("DataModel")]
+        [TestCategory("Implemented")]
+        public void TestColumnsIteratorIsNotNull()
+        {
+            Assert.IsNotNull(tested.ColumnsIterator());
+        }
+
+
+        [TestMethod]
+        [TestCategory("DataModel")]
+        [TestCategory("Implemented")]
+        public void TestColumnsIteratorIsStubIfIsNoColumn()
+        {
+            Assert.IsNotNull(tested.ColumnsIterator());
+            Assert.IsFalse(tested.ColumnsIterator().MoveNext());
+        }
+
+        private void FillTestedWithColumns(int count)
+        {
+            List<Column> lista = new List<Column>();
+
+            if (count > 0)
+            {
+                pierwsza = CreateColumnMockWithSettedNameAndEqualsItself("one");
+                lista.Add(pierwsza);
+            }
+            if (count > 1)
+            {
+                druga = CreateColumnMockWithSettedNameAndEqualsItself("second");
+                lista.Add(druga);
+            }
+            if (count > 2)
+            {
+                trzecia = CreateColumnMockWithSettedNameAndEqualsItself("three");
+                lista.Add(trzecia);
+            }
+            if (count > 3)
+            {
+                czwarta = CreateColumnMockWithSettedNameAndEqualsItself("four");
+                lista.Add(czwarta);
+            }
+            tested.AddColumnsAtBegin(lista);
+        }
+
+
+        [TestMethod]
+        [TestCategory("DataModel")]
+        [TestCategory("Implemented")]
+        public void TestColumnsIteratorReturningAllColumns()
+        {
+            FillTestedWithColumns(3);
+
+            IEnumerator<Column> it = tested.ColumnsIterator();
+            it.MoveNext();
+            Assert.AreEqual(it.Current, pierwsza);
+            it.MoveNext();
+            Assert.AreEqual(it.Current, druga);
+            it.MoveNext();
+            Assert.AreEqual(it.Current, trzecia);
+            Assert.IsFalse(it.MoveNext());
+        }
+
+
+        [TestMethod]
+        [TestCategory("DataModel")]
+        [TestCategory("Implemented")]
+        public void TestSplitFromInsideToInside()
+        {
+            FillTestedWithColumns(4);
+
+            List<Column> splitted = tested.Slice(1, 3);
+
+            Assert.IsTrue(splitted.Count == 2);
+            Assert.AreEqual(splitted.ElementAt(0), druga);
+            Assert.AreEqual(splitted.ElementAt(1), trzecia);
+        }
+
+        [TestMethod]
+        [TestCategory("DataModel")]
+        [TestCategory("Implemented")]
+        public void TestSplitFromBegToInside()
+        {
+            FillTestedWithColumns(4);
+
+            List<Column> splitted = tested.Slice(-3);
+
+            Assert.IsTrue(splitted.SequenceEqual(tested.Slice(0, 3)));
+
+            Assert.IsTrue(splitted.Count == 3);
+            Assert.AreEqual(splitted.ElementAt(0), pierwsza);
+            Assert.AreEqual(splitted.ElementAt(1), druga);
+            Assert.AreEqual(splitted.ElementAt(2), trzecia);
+        }
+
+
+        [TestMethod]
+        [TestCategory("DataModel")]
+        [TestCategory("Implemented")]
+        public void TestSplitFromInsideToEnd()
+        {
+            FillTestedWithColumns(4);
+
+            List<Column> splitted = tested.Slice(2);
+
+            Assert.IsTrue(splitted.SequenceEqual(tested.Slice(2, 0)));
+
+            Assert.IsTrue(splitted.Count == 2);
+            Assert.AreEqual(splitted.ElementAt(0), trzecia);
+            Assert.AreEqual(splitted.ElementAt(1), czwarta);
+        }
+
+        [TestMethod]
+        [TestCategory("DataModel")]
+        [TestCategory("Not implemented")]
+        [TestCategory("DEPENDED")]
+        public void TestCloning()
+        {
+            List<Column> columnsList = new List<Column>();
+
+            Column c1 = new Column(new List<Cell>(),"test1",Column.ObjectsType.Date,Column.Role.Dimension);
+            Column c2 = new Column(new List<Cell>(), "test2", Column.ObjectsType.Date, Column.Role.Dimension);
+            Column c3 = new Column(new List<Cell>(), "test3", Column.ObjectsType.Date, Column.Role.Dimension);
+
+            columnsList.Add(c1);
+            columnsList.Add(c2);
+            columnsList.Add(c3);
+
+            tested = new DataModel();
+            tested.AddColumnsAtBegin(columnsList);
+
+            DataModel cloned = tested.CloneModel();
+
+            Assert.AreEqual(cloned, tested);
+            Assert.AreNotSame(tested, cloned);
+        }
+
+        [TestMethod]
+        [TestCategory("DataModel")]
+        [TestCategory("Implemented")]
+        public void TestCellsIteratorIsNotNull()
+        {
+            Assert.IsNotNull(tested.CellsIterator());
+        }
+    }
+}

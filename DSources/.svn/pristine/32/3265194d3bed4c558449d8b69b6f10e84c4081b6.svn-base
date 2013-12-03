@@ -1,0 +1,46 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DSources.Parsers
+{
+    internal class AbstractParser : InternalParser
+    {
+        private ParserInfo _arguments = new ParserInfo();
+
+        protected ParserCore ParserCore { get; set; }
+
+        public ParserInfo Arguments { get { return _arguments; } }
+
+        public bool IsFinal { get { return false; } }
+
+        public bool IsValid { get { return false; } }
+
+        public Data.DataModel Parse()
+        {
+            throw new NotImplementedException();
+        }
+
+        public InternalParser ClonePrototype()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ConfigureItSelf(Logic.ParserConfiguration configuration)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Init()
+        {
+            ParserArgumentInfo column_count = new ParserArgumentInfo("Column count", ArgType.Number,"Count of columns in table.");
+            ParserArgumentInfo column_object_types = new ParserArgumentInfo("Object type in columns", ArgType.Text,"List of object types in columns, in format: \"<object_type> , <object_type> , (...)\" where <object_type> is one of: Text, Number, Date");  
+            ParserArgumentInfo columns_roles = new ParserArgumentInfo("Columns roles list",ArgType.Text,"List of role of each column, in format: \"<role> , <role> , (...)\" where <role> is one of: Fact, Dimension");
+            Arguments.AddArgument(column_count);
+            Arguments.AddArgument(column_object_types);
+            Arguments.AddArgument(columns_roles);
+        }
+    }
+}

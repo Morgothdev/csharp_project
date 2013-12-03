@@ -1,0 +1,48 @@
+﻿using DSources.Data;
+using DSources.Logic;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DSources.Parsers
+{
+    public abstract class Parser
+    {
+        public abstract DataModel Parse();
+        public virtual bool IsValid{get;protected set;}
+        public virtual ParserInfo Arguments{get;protected set;}
+        public abstract Parser ClonePrototype();
+        public static Parser StubParser = new StubParser();
+        public abstract void ConfigureItSelf(ParserConfiguration configuration);
+    }
+
+
+    internal class StubParser : Parser
+    {
+
+        internal StubParser()
+        {
+            IsValid = false;
+            Arguments = new ParserInfo();
+            Arguments.ParserName = "Stub Parser!";
+        }
+
+
+        public override DataModel Parse()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override Parser ClonePrototype()
+        {
+            return new StubParser();
+        }
+
+        public override void ConfigureItSelf(ParserConfiguration configuration)
+        {
+            //Do nothing
+        }
+    }
+}
