@@ -5,8 +5,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DSources", "DSourcesModule\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DSourcesTests", "DSourcesTests\DSourcesTests.csproj", "{B38E48F1-3819-4E88-A2CF-35BB5462172A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UDM", "..\UDM\UDM.csproj", "{D1997F21-369E-45DB-8089-9DF57BE85C28}"
-EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
@@ -41,16 +39,6 @@ Global
 		{B38E48F1-3819-4E88-A2CF-35BB5462172A}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{B38E48F1-3819-4E88-A2CF-35BB5462172A}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{B38E48F1-3819-4E88-A2CF-35BB5462172A}.Release|x86.ActiveCfg = Release|Any CPU
-		{D1997F21-369E-45DB-8089-9DF57BE85C28}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{D1997F21-369E-45DB-8089-9DF57BE85C28}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{D1997F21-369E-45DB-8089-9DF57BE85C28}.Debug|Mixed Platforms.Build.0 = Debug|x86
-		{D1997F21-369E-45DB-8089-9DF57BE85C28}.Debug|x86.ActiveCfg = Debug|x86
-		{D1997F21-369E-45DB-8089-9DF57BE85C28}.Debug|x86.Build.0 = Debug|x86
-		{D1997F21-369E-45DB-8089-9DF57BE85C28}.Release|Any CPU.ActiveCfg = Release|x86
-		{D1997F21-369E-45DB-8089-9DF57BE85C28}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{D1997F21-369E-45DB-8089-9DF57BE85C28}.Release|Mixed Platforms.Build.0 = Release|x86
-		{D1997F21-369E-45DB-8089-9DF57BE85C28}.Release|x86.ActiveCfg = Release|x86
-		{D1997F21-369E-45DB-8089-9DF57BE85C28}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

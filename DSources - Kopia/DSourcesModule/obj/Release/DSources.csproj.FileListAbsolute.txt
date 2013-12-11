@@ -1,7 +1,0 @@
-C:\Users\Mateusz\Documents\Visual Studio 2012\Projects\DSources\DSourcesModule\bin\Release\DSourcesModule.dll
-C:\Users\Mateusz\Documents\Visual Studio 2012\Projects\DSources\DSourcesModule\bin\Release\DSourcesModule.pdb
-C:\Users\Mateusz\Documents\Visual Studio 2012\Projects\DSources\DSourcesModule\bin\Release\UDM2.dll
-C:\Users\Mateusz\Documents\Visual Studio 2012\Projects\DSources\DSourcesModule\bin\Release\UDM2.pdb
-C:\Users\Mateusz\Documents\Visual Studio 2012\Projects\DSources\DSourcesModule\obj\Release\DSources.csprojResolveAssemblyReference.cache
-C:\Users\Mateusz\Documents\Visual Studio 2012\Projects\DSources\DSourcesModule\obj\Release\DSourcesModule.dll
-C:\Users\Mateusz\Documents\Visual Studio 2012\Projects\DSources\DSourcesModule\obj\Release\DSourcesModule.pdb

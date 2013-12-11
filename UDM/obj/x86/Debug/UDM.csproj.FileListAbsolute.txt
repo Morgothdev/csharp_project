@@ -1,5 +1,4 @@
-C:\Users\Mateusz\Documents\Visual Studio 2012\Projects\UDM\obj\x86\Debug\UDM.csprojResolveAssemblyReference.cache
-C:\Users\Mateusz\Documents\Visual Studio 2012\Projects\UDM\bin\Debug\UDM.exe
 C:\Users\Mateusz\Documents\Visual Studio 2012\Projects\UDM\bin\Debug\UDM.pdb
-C:\Users\Mateusz\Documents\Visual Studio 2012\Projects\UDM\obj\x86\Debug\UDM.exe
 C:\Users\Mateusz\Documents\Visual Studio 2012\Projects\UDM\obj\x86\Debug\UDM.pdb
+C:\Users\Mateusz\Documents\Visual Studio 2012\Projects\UDM\bin\Debug\UDM.dll
+C:\Users\Mateusz\Documents\Visual Studio 2012\Projects\UDM\obj\x86\Debug\UDM.dll
