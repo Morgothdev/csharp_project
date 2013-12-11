@@ -1,0 +1,85 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Xml.Linq;
+
+namespace Testpwu
+{
+
+    class Program
+    {
+        private static XName firstNestLabel = "row";
+        private static XName rootLabel = "data";
+        private static XName columnNameLabel = "column-name";
+        private static XName secondNestLabel = "cell";
+
+        public static Stream GenerateStreamFromString(string s)
+        {
+            MemoryStream stream = new MemoryStream();
+            StreamWriter writer = new StreamWriter(stream);
+            writer.Write(s);
+            writer.Flush();
+            stream.Position = 0;
+            return stream;
+        }
+
+        static string[] SplitFirstNest(string Data)
+        {
+            XDocument doc = XDocument.Load(GenerateStreamFromString(Data));
+            XElement[] elements = doc.Element(rootLabel).Elements(firstNestLabel).ToArray();
+            List<String> lines = new List<string>();
+            foreach (XElement element in elements)
+            {
+                String line = "";
+                foreach (XNode node in element.Nodes())
+                {
+                    line = string.Concat(line, node.ToString());
+                }
+                lines.Add(line);
+            }
+            return lines.ToArray();
+        }
+
+        static string[] SplitSecondNest(string line)
+        {
+            XDocument doc = XDocument.Load(GenerateStreamFromString(string.Concat("<temp-row>", line, "</temp-row>")));
+            List<String> elements = new List<string>();
+
+            XElement[] nodes = doc.Element("temp-row").Elements(columnNameLabel).ToArray();
+            foreach (XElement node in nodes)
+            {
+                elements.Add(node.Value);
+            }
+            nodes = doc.Element("temp-row").Elements(secondNestLabel).ToArray();
+            foreach (XElement node in nodes)
+            {
+                elements.Add(node.Value);
+            }
+
+            return elements.ToArray();
+        }
+
+
+        static void Main(string[] args)
+        {
+
+            string[] lines = SplitFirstNest(File.ReadAllText("./test.xml"));
+
+            foreach (String s in lines)
+            {
+                string[] elem = SplitSecondNest(s);
+                foreach (String e in elem)
+                {
+                    Console.Write("{0} | ", e);
+                }
+                Console.WriteLine();
+            }
+
+            Console.Read();
+        }
+    }
+}

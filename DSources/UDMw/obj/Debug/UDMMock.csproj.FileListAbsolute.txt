@@ -1,4 +1,0 @@
-C:\Users\Mateusz\Documents\Visual Studio 2012\Projects\DSources\UDMMock\bin\Debug\UDMMock.dll
-C:\Users\Mateusz\Documents\Visual Studio 2012\Projects\DSources\UDMMock\bin\Debug\UDMMock.pdb
-C:\Users\Mateusz\Documents\Visual Studio 2012\Projects\DSources\UDMMock\obj\Debug\UDMMock.dll
-C:\Users\Mateusz\Documents\Visual Studio 2012\Projects\DSources\UDMMock\obj\Debug\UDMMock.pdb

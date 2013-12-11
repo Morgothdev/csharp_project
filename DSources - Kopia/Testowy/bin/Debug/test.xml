@@ -1,0 +1,6 @@
+<data>
+	<row><column-name>Imie</column-name><column-name>wyplata</column-name></row>
+	<row><cell>ala</cell><cell>1234</cell></row>
+	<row><cell>ola</cell><cell>4321</cell></row>
+	<row><cell>iza</cell><cell>22</cell></row>
+</data>

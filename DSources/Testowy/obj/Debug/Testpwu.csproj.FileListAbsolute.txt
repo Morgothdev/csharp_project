@@ -1,6 +1,0 @@
-C:\Users\Mateusz\Documents\Visual Studio 2012\Projects\DSourcesModule\Testpwu\obj\Debug\Testpwu.csprojResolveAssemblyReference.cache
-C:\Users\Mateusz\Documents\Visual Studio 2012\Projects\DSourcesModule\Testpwu\bin\Debug\Testpwu.exe.config
-C:\Users\Mateusz\Documents\Visual Studio 2012\Projects\DSourcesModule\Testpwu\bin\Debug\Testpwu.exe
-C:\Users\Mateusz\Documents\Visual Studio 2012\Projects\DSourcesModule\Testpwu\bin\Debug\Testpwu.pdb
-C:\Users\Mateusz\Documents\Visual Studio 2012\Projects\DSourcesModule\Testpwu\obj\Debug\Testpwu.exe
-C:\Users\Mateusz\Documents\Visual Studio 2012\Projects\DSourcesModule\Testpwu\obj\Debug\Testpwu.pdb

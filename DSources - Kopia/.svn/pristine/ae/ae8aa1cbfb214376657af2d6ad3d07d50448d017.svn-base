@@ -1,0 +1,47 @@
+﻿using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NMock2;
+using DSources.Logic;
+using System.Resources;
+using System.Reflection;
+
+namespace DSources.Parsers
+{
+    [TestClass]
+    public class ParsersTests
+    {
+        [TestMethod]
+        [TestCategory("CSVParser")]
+        [TestCategory("TESTING_BY_HAND")]
+        public void CSVReadingTestData()
+        {
+            CSVParser tested = new CSVParser();
+            ParserConfiguration.Builder builder = ParserConfiguration.GetBuilder();
+            tested.Init();
+            builder.SetParserName("CSV File Parser");
+            builder.SetProperty(CSVParser.FILE_PATH_KEY, "./test.csv");
+            builder.SetProperty(CSVParser.COLUMNS_ROLES_KEY, "Dimension,Dimension");
+            builder.SetProperty(CSVParser.COLUMN_OBJECT_TYPES_KEY, "text,integer");
+            tested.ConfigureItSelf(builder.Build());
+            tested.ParseData();
+            Console.Write(tested.ParserCore.ToString());
+        }
+
+        [TestMethod]
+        [TestCategory("XMLParser")]
+        [TestCategory("TESTING_BY_HAND")]
+        public void XMLReadingTestData()
+        {
+            XMLParser tested = new XMLParser();
+            ParserConfiguration.Builder builder = ParserConfiguration.GetBuilder();
+            tested.Init();
+            builder.SetParserName("XML File Parser");
+            builder.SetProperty(XMLParser.FILE_PATH_KEY, "./test.xml");
+            builder.SetProperty(XMLParser.COLUMNS_ROLES_KEY, "Dimension,Dimension");
+            builder.SetProperty(XMLParser.COLUMN_OBJECT_TYPES_KEY, "text,integer");
+            tested.ConfigureItSelf(builder.Build());
+            tested.ParseData();
+            Console.Write(tested.ParserCore.ToString());
+        }
+    }
+}

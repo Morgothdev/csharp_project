@@ -1,0 +1,83 @@
+﻿using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NMock2;
+
+namespace DSources.Parsers
+{
+    [TestClass]
+    public class ParserInfoTest
+    {
+        [TestMethod]
+        [TestCategory("ParserInfo")]
+        [TestCategory("Implemented")]
+        public void TestContainingOneArgument()
+        {
+            Mockery mockery = new Mockery();
+            ParserArgumentInfo mockedArg = CreateArgument(mockery, "URL", ArgType.Text, "testing");
+            ParserInfo tested = new ParserInfo();
+            tested.AddArgument(mockedArg);
+            Assert.IsTrue(tested.GetNecessaryArgumentsAsCollection().Count == 1);
+            Assert.IsTrue(tested.GetNecessaryArgumentsAsCollection().Contains(mockedArg));
+        }
+
+        [TestMethod]
+        [TestCategory("ParserInfo")]
+        [TestCategory("Implemented")]
+        public void TestContainingMoreArguments()
+        {
+            Mockery mockery = new Mockery();
+            ParserArgumentInfo mockedArg = CreateArgument(mockery, "port", ArgType.Text, "testing");
+            ParserArgumentInfo mockedArg2 = CreateArgument(mockery, "IP", ArgType.Number, "testing");
+            ParserInfo tested = new ParserInfo();
+            tested.AddArgument(mockedArg);
+            tested.AddArgument(mockedArg2);
+            Assert.IsTrue(tested.GetNecessaryArgumentsAsCollection().Count == 2);
+            Assert.IsTrue(tested.GetNecessaryArgumentsAsCollection().Contains(mockedArg));
+            Assert.IsTrue(tested.GetNecessaryArgumentsAsCollection().Contains(mockedArg2));
+        }
+
+        [TestMethod]
+        [TestCategory("ParserInfo")]
+        [TestCategory("Implemented")]
+        public void TestContainingArguments()
+        {
+            ParserInfo tested = new ParserInfo();
+            Assert.IsNotNull(tested.GetNecessaryArgumentsAsCollection());
+            Assert.IsTrue(tested.GetNecessaryArgumentsAsCollection().Count == 0);
+        }
+
+        private static ParserArgumentInfo CreateArgument(Mockery mockery, String Name, ArgType propType, string description)
+        {
+            ParserArgumentInfo mockedArg = (ParserArgumentInfo)mockery.NewMock(typeof(ParserArgumentInfo), Name, propType, description);
+            Expect.On(mockedArg).GetProperty("Type").Will(Return.Value(propType));
+            Expect.On(mockedArg).GetProperty("Name").Will(Return.Value(Name));
+            Expect.On(mockedArg).GetProperty("Description").Will(Return.Value(Name));
+            return mockedArg;
+        }
+
+        [TestMethod]
+        [TestCategory("ParserInfo")]
+        [TestCategory("Not implemented")]
+        public void TestRemovingArguments()
+        {
+            Mockery mockery = new Mockery();
+            ParserArgumentInfo mockedArg = CreateArgument(mockery, "port", ArgType.Text, "testing");
+            ParserArgumentInfo mockedArg2 = CreateArgument(mockery, "IP", ArgType.Number, "testing"); 
+            ParserArgumentInfo toDelete = CreateArgument(mockery, "del", ArgType.Number, "testing");
+            ParserInfo tested = new ParserInfo();
+            tested.AddArgument(mockedArg);
+            tested.AddArgument(mockedArg2);
+            tested.AddArgument(toDelete);
+            Assert.IsTrue(tested.GetNecessaryArgumentsAsCollection().Count == 3);
+            Assert.IsTrue(tested.GetNecessaryArgumentsAsCollection().Contains(mockedArg));
+            Assert.IsTrue(tested.GetNecessaryArgumentsAsCollection().Contains(mockedArg2));
+            Assert.IsTrue(tested.GetNecessaryArgumentsAsCollection().Contains(toDelete));
+            tested.RemoveArgument("del");
+            Assert.IsTrue(tested.GetNecessaryArgumentsAsCollection().Count == 2);
+            Assert.IsTrue(tested.GetNecessaryArgumentsAsCollection().Contains(mockedArg));
+            Assert.IsTrue(tested.GetNecessaryArgumentsAsCollection().Contains(mockedArg2));
+            
+
+        }
+    }
+}

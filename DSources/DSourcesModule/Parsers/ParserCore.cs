@@ -11,14 +11,19 @@ namespace DSources.Parsers
         private List<List<Object>> columns = new List<List<Object>>();
         private List<String> columnNames = new List<string>();
         private List<DataType> columnDataTypes = new List<DataType>();
+        private List<ObjectType> columnObjectsTypes = new List<ObjectType>();
+
 
         private int actualColumn = 0;
-        private int actualRow = 0;
 
         internal void Init() {
             columns.Add(new List<Object>());
             actualColumn = 0;
-            actualRow = 0;
+        }
+
+        internal void GotoStart()
+        {
+            actualColumn = 0;
         }
 
         private void checkColumns()
@@ -29,10 +34,10 @@ namespace DSources.Parsers
             }
         }
 
-        internal void AddNextCellInRow(Object cell) {
-            ++actualColumn;
+        internal void AddCellInRowAndGoToNextColumn(Object cell) {
             checkColumns();
             columns.ElementAt(actualColumn).Add(cell);
+            ++actualColumn;
         }
 
         internal void AddNextCellInColumn(Object cell) {
@@ -52,26 +57,87 @@ namespace DSources.Parsers
             columnNames.Add(Name);
         }
 
+        internal void SetColumnObjectsType(ObjectType objectsType)
+        {
+            columnObjectsTypes.Add(objectsType);
+        }
+
         internal void GotoNextRow() {
             actualColumn = 0;
         }
 
         internal Table Build() {
-            Table result = new Table("", new List<Column<object>>());
+
+            clearEmptyColumns();
+
+            checkSameLengthsOfColumns();
+
+            checkCompleteData();
+
+            Table result = BuildTable();
+
+            return result;
+        }
+
+        private void checkCompleteData()
+        {
+            if (columns.Count != columnNames.Count) { throw new ArgumentException("Different number of columns and column Names in souce"); }
+            if (columns.Count != columnDataTypes.Count) { throw new ArgumentException("Different number of columns and column roles in souce"); }
+            if (columns.Count != columnObjectsTypes.Count) { throw new ArgumentException("Different number of columns and column object types in souce"); }
+        }
+
+        private void checkSameLengthsOfColumns()
+        {
+            int rows = columns[0].Count;
+            foreach (List<Object> column in columns)
+            {
+                if (column.Count != rows) { throw new ArgumentException("Condemned rows!"); }
+            }
+        }
+
+        private void clearEmptyColumns()
+        {
+            List<List<object>> old = columns;
+            columns = new List<List<object>>();
+            foreach (List<Object> column in old)
+            {
+                if (column.Count > 0)
+                {
+                    columns.Add(column);
+                }
+            }
+        }
+
+        private Table BuildTable()
+        {
+            Table result = new Table("", new List<Column>());
             for (int c = 0; c < columns.Count; ++c)
             {
-                List<Cell<Object>> newColumnCells = columns[c].Select(x => new Cell<object>(x)).ToList();
-                Column<Object> newColumn = new Column<object>(columnNames[c], newColumnCells, columnDataTypes[c]);
+                List<Cell> newColumnCells = columns[c].Select(x => new Cell(CastToValidType(x,columnDataTypes[c]))).ToList();
+                Column newColumn = new Column(columnNames[c], newColumnCells, columnDataTypes[c]);
                 result.AddColumn(newColumn);
             }
             return result;
         }
 
+        private object CastToValidType(object x, DataType dataType)
+        {
+            return x;
+        }
+
         public override String ToString(){
+
+            clearEmptyColumns();
+
+            checkSameLengthsOfColumns();
+
+            checkCompleteData();
+
             StringBuilder result = new StringBuilder();
-            foreach (List<Object> column in columns)
+            for(int i = 0; i<columns.Count;++i)
             {
-                foreach (Object cell in column)
+                result.Append("Column, name: \"" + columnNames[i] + "\", objects type: " + columnObjectsTypes[i] + ", role: " + columnDataTypes[i] + ", cells: ");
+                foreach (Object cell in columns[i])
                 {
                     result.Append(cell + " | ");
                 }

@@ -1,0 +1,12 @@
+<data>
+	<row><column-name>Imie</column-name><column-name>wyplata</column-name></row>
+	<row><cell>Ala</cell><cell>1234</cell></row>
+	<row><cell>Ola</cell><cell>4321</cell></row>
+	<row><cell>Iza</cell><cell>2208</cell></row>
+</data>
+
+<data>
+	<column><column-name>Imie</column-name><cell>Ala</cell><cell>Ola</cell><cell>Iza</cell></row>
+	<column><column-name>wyplata</column-name><cell>1234</cell><cell>4321</cell><cell>2208</cell></row>
+</data>
+
