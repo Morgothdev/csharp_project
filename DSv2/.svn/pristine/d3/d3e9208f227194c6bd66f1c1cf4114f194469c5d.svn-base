@@ -1,0 +1,237 @@
+﻿using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NMock2;
+using DSources.Logic;
+using System.Resources;
+using System.Reflection;
+using UDM;
+using System.Linq;
+using System.Text;
+
+namespace DSources.Parsers
+{
+    [TestClass]
+    public class ParsersTests
+    {
+        string ou = "Column:name:region-cells:East(String)|Central(String)|Central(String)|Central(String)|West(String)|East(String)|Central(String)|Central(String)|West(String)|East(String)|Central(String)|East(String)|East(String)|East(String)|Central(String)|East(String)|Central(String)|East(String)|East(String)|Central(String)|Central(String)|East(String)|Central(String)|Central(String)|East(String)|West(String)|Central(String)|Central(String)|East(String)|Central(String)|Central(String)|Central(String)|East(String)|Central(String)|Central(String)|West(String)|Central(String)|West(String)|West(String)|Central(String)|Central(String)|Central(String)|Central(String)|;Column:name:rep-cells:Jones(String)|Kivell(String)|Jardine(String)|Gill(String)|Sorvino(String)|Jones(String)|Andrews(String)|Jardine(String)|Thompson(String)|Jones(String)|Morgan(String)|Howard(String)|Parent(String)|Jones(String)|Smith(String)|Jones(String)|Morgan(String)|Jones(String)|Parent(String)|Kivell(String)|Smith(String)|Parent(String)|Gill(String)|Smith(String)|Jones(String)|Sorvino(String)|Jardine(String)|Andrews(String)|Howard(String)|Gill(String)|Gill(String)|Kivell(String)|Jones(String)|Morgan(String)|Kivell(String)|Sorvino(String)|Gill(String)|Sorvino(String)|Thompson(String)|Andrews(String)|Jardine(String)|Jardine(String)|Andrews(String)|;Column:name:item-cells:Pencil(String)|Binder(String)|Pencil(String)|Pen(String)|Pencil(String)|Binder(String)|Pencil(String)|Pencil(String)|Pencil(String)|Binder(String)|Pencil(String)|Binder(String)|Binder(String)|Pencil(String)|Desk(String)|Pen Set(String)|Binder(String)|Pen(String)|Pen(String)|Pen Set(String)|Pencil(String)|Pen Set(String)|Binder(String)|Binder(String)|Binder(String)|Binder(String)|Pen Set(String)|Pencil(String)|Pen(String)|Pencil(String)|Binder(String)|Desk(String)|Pen Set(String)|Pen Set(String)|Pen Set(String)|Desk(String)|Pencil(String)|Pen(String)|Binder(String)|Pencil(String)|Binder(String)|Binder(String)|Binder(String)|;Column:name:units-cells:95(Int64)|50(Int64)|36(Int64)|27(Int64)|56(Int64)|60(Int64)|75(Int64)|90(Int64)|32(Int64)|60(Int64)|90(Int64)|29(Int64)|81(Int64)|35(Int64)|2(Int64)|16(Int64)|28(Int64)|64(Int64)|15(Int64)|96(Int64)|67(Int64)|74(Int64)|46(Int64)|87(Int64)|4(Int64)|7(Int64)|50(Int64)|66(Int64)|96(Int64)|53(Int64)|80(Int64)|5(Int64)|62(Int64)|55(Int64)|42(Int64)|3(Int64)|7(Int64)|76(Int64)|57(Int64)|14(Int64)|11(Int64)|94(Int64)|28(Int64)|;Column:name:cost-cells:1,99(Double)|19,99(Double)|4,99(Double)|19,99(Double)|2,99(Double)|4,99(Double)|1,99(Double)|4,99(Double)|1,99(Double)|8,99(Double)|4,99(Double)|1,99(Double)|19,99(Double)|4,99(Double)|125(Double)|15,99(Double)|8,99(Double)|8,99(Double)|19,99(Double)|4,99(Double)|1,29(Double)|15,99(Double)|8,99(Double)|15(Double)|4,99(Double)|19,99(Double)|4,99(Double)|1,99(Double)|4,99(Double)|1,29(Double)|8,99(Double)|125(Double)|4,99(Double)|12,49(Double)|23,95(Double)|275(Double)|1,29(Double)|1,99(Double)|19,99(Double)|1,29(Double)|4,99(Double)|19,99(Double)|4,99(Double)|;Column:name:total-cells:189,05(Double)|999,5(Double)|179,64(Double)|539,73(Double)|167,44(Double)|299,4(Double)|149,25(Double)|449,1(Double)|63,68(Double)|539,4(Double)|449,1(Double)|57,71(Double)|1619,19(Double)|174,65(Double)|250(Double)|255,84(Double)|251,72(Double)|575,36(Double)|299,85(Double)|479,04(Double)|86,43(Double)|1183,26(Double)|413,54(Double)|1305(Double)|19,96(Double)|139,93(Double)|249,5(Double)|131,34(Double)|479,04(Double)|68,37(Double)|719,2(Double)|625(Double)|309,38(Double)|686,95(Double)|1005,9(Double)|825(Double)|9,03(Double)|151,24(Double)|1139,43(Double)|18,06(Double)|54,89(Double)|1879,06(Double)|139,72(Double)|;";
+
+        private void Check(InternalParser tested)
+        {
+            try
+            {
+                Table t = tested.Parse();
+                WriteTable(t);
+                Console.WriteLine(ou);
+                Assert.AreEqual(ou, tableToString(t));
+
+                Console.WriteLine(tableToXmlString(t));
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("problems.Count=" + tested.Problems.Count);
+                Console.WriteLine(e.Message);
+                tested.Problems.Select(p => { Console.WriteLine(p); return p; });
+                Assert.Fail();
+            }
+        }
+
+        private void WriteTable(Table t)
+        {
+            Console.WriteLine(tableToString(t));
+        }
+
+        private static string tableToXmlString(Table t)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("<data>\n");
+            foreach (Column col in t.Columns)
+            {
+                sb.Append("\t<column>\n").Append("\t\t<column-name>").Append(col.Name.ToLower()).Append("</column-name>\n");
+                foreach (Cell c in col.Cells)
+                {
+                    sb.Append("\t\t<cell>").Append(c.Content).Append("</cell>\n");
+                }
+                sb.Append("\t</column>\n");
+            }
+            sb.Append("</data>");
+            return sb.ToString();
+        }
+
+
+        private static string tableToString(Table t)
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (Column col in t.Columns)
+            {
+                sb.Append("Column:").Append("name:").Append(col.Name.ToLower()).Append("-");
+                sb.Append("cells:");
+                foreach (Cell c in col.Cells)
+                {
+                    sb.Append(c.Content).Append("(").Append(c.Content.GetType().Name).Append(")|");
+                }
+                sb.Append(";");
+            }
+            return sb.ToString();
+        }
+
+        [TestMethod]
+        [TestCategory("CSVParser")]
+        [TestCategory("TestValidReadingSampleData")]
+        public void CSVReadingTestData()
+        {
+            CSVParser tested = new CSVParser();
+            ParserConfiguration.Builder builder = ParserConfiguration.GetBuilder();
+            tested.Init();
+            builder.SetParserName("CSV File Parser");
+            builder.SetProperty(CSVParser.FILE_PATH_KEY, "./SampleData.csv");
+            builder.SetProperty(CSVParser.COLUMN_OBJECT_TYPES_KEY, "StringDimension,StringDimension,StringDimension, IntegerFact,FloatFact, FloatFact");
+            tested.ConfigureItSelf(builder.Build());
+            Check(tested);
+        }
+
+
+
+
+        [TestMethod]
+        [TestCategory("XMLParser")]
+        [TestCategory("TestValidReadingSampleData")]
+        public void XMLReadingTestDataFirstRows()
+        {
+            XMLParser tested = new XMLParser();
+            ParserConfiguration.Builder builder = ParserConfiguration.GetBuilder();
+            tested.Init();
+            builder.SetParserName("XML File Parser");
+            builder.SetProperty(XMLParser.FILE_PATH_KEY, "./SampleData.xml");
+            builder.SetProperty(XMLParser.ORDER_IN_DATA, "row by row");
+            builder.SetProperty(XMLParser.COLUMN_OBJECT_TYPES_KEY, "StringDimension,StringDimension,StringDimension, IntegerFact,FloatFact, FloatFact");
+            tested.ConfigureItSelf(builder.Build());
+            Check(tested);
+        }
+
+        [TestMethod]
+        [TestCategory("XMLParser")]
+        [TestCategory("TestValidReadingSampleData")]
+        public void XMLReadingTestDataFirstColumns()
+        {
+            XMLParser tested = new XMLParser();
+            ParserConfiguration.Builder builder = ParserConfiguration.GetBuilder();
+            tested.Init();
+            builder.SetParserName("XML File Parser");
+            builder.SetProperty(XMLParser.FILE_PATH_KEY, "./SampleData2.xml");
+            builder.SetProperty(XMLParser.ORDER_IN_DATA, "column by column");
+            builder.SetProperty(XMLParser.COLUMN_OBJECT_TYPES_KEY, "StringDimension,StringDimension,StringDimension, IntegerFact,FloatFact, FloatFact");
+            tested.ConfigureItSelf(builder.Build());
+            //tested.ParseData();
+            //Console.Write(tested.ParserCore.ToString());
+            Check(tested);
+        }
+
+
+
+
+        [TestMethod]
+        [TestCategory("XLSParser")]
+        [TestCategory("TestValidReadingSampleData")]
+        public void XLSReadingTestData()
+        {
+            XLSParser tested = new XLSParser();
+            ParserConfiguration.Builder builder = ParserConfiguration.GetBuilder();
+            tested.Init();
+            builder.SetParserName(tested.Arguments.ParserName);
+            builder.SetProperty(XLSParser.FILE_PATH_KEY, "./SampleData.xls");
+            builder.SetProperty(XLSParser.WORK_SHEET_NAME_KEY, "test");
+            builder.SetProperty(XLSParser.COLUMN_OBJECT_TYPES_KEY, "StringDimension,StringDimension,StringDimension, IntegerFact,FloatFact, FloatFact");
+            tested.ConfigureItSelf(builder.Build());
+            Check(tested);
+        }
+
+        [TestMethod]
+        [TestCategory("MySQLParser")]
+        [TestCategory("TestValidReadingSampleData")]
+        public void MySQLDataBaseParserReadingData()
+        {
+            MySQLParser tested = new MySQLParser();
+
+            tested.Init();
+            ParserConfiguration.Builder builder = ParserConfiguration.GetBuilder();
+            builder.SetParserName(tested.Arguments.ParserName);
+            builder.SetProperty(MySQLParser.SERVER_IP_KEY, "sql4.freemysqlhosting.net");
+            builder.SetProperty(MySQLParser.SERVER_PORT_KEY, "3306");
+            builder.SetProperty(MySQLParser.DATABASE_NAME_KEY, "sql424779");
+            builder.SetProperty(MySQLParser.USER_NAME_KEY, "sql424779");
+            builder.SetProperty(MySQLParser.USER_PASSWORD_KEY, "xB4%lD4%");
+            builder.SetProperty(MySQLParser.REQUEST_KEY, "select region, rep, item, units, cost, total from sampledata");
+            builder.SetProperty(MySQLParser.COLUMN_OBJECT_TYPES_KEY, "StringDimension,StringDimension,StringDimension, IntegerFact,FloatFact, FloatFact");
+
+            tested.ConfigureItSelf(builder.Build());
+            Check(tested);
+        }
+
+
+        [TestMethod]
+        [TestCategory("MSSQLParser")]
+        [TestCategory("TestValidReadingSampleData")]
+        public void MSSQLDataBaseParserReadingData()
+        {
+            MSSQLParser tested = new MSSQLParser();
+
+            tested.Init();
+            ParserConfiguration.Builder builder = ParserConfiguration.GetBuilder();
+            builder.SetParserName(tested.Arguments.ParserName);
+            builder.SetProperty(MSSQLParser.SERVER_IP_KEY, "dsourcesbase.mssql.somee.com");
+            builder.SetProperty(MSSQLParser.DATABASE_NAME_KEY,"dsourcesbase");
+            builder.SetProperty(MSSQLParser.USER_NAME_KEY, "dsourcesclient");
+            builder.SetProperty(MSSQLParser.USER_PASSWORD_KEY, "dsourcesclient");
+            builder.SetProperty(MSSQLParser.REQUEST_KEY, "select region, rep, item, units, cost, total from sampledata");
+            builder.SetProperty(MSSQLParser.COLUMN_OBJECT_TYPES_KEY, "StringDimension,StringDimension,StringDimension, IntegerFact,FloatFact, FloatFact");
+
+            tested.ConfigureItSelf(builder.Build());
+            Check(tested);
+        }
+
+        [TestMethod]
+        [TestCategory("MongoDBParser")]
+        [TestCategory("TestValidReadingSampleData")]
+        public void MongoDataBaseParserReadingData()
+        {
+            MongoDBParser tested = new MongoDBParser();
+
+            tested.Init();
+            ParserConfiguration.Builder builder = ParserConfiguration.GetBuilder();
+            builder.SetParserName(tested.Arguments.ParserName);
+            builder.SetProperty(MongoDBParser.SERVER_IP_KEY, "ds057568.mongolab.com");
+            builder.SetProperty(MongoDBParser.SERVER_PORT_KEY, "57568");
+            builder.SetProperty(MongoDBParser.DATABASE_NAME_KEY, "dsourcesbase");
+            builder.SetProperty(MongoDBParser.USER_NAME_KEY, "dsourcesclient");
+            builder.SetProperty(MongoDBParser.USER_PASSWORD_KEY, "dsourcesclient");
+            builder.SetProperty(MongoDBParser.COLLECTION_NAME_KEY, "sampledata");
+            builder.SetProperty(MongoDBParser.FIELD_NAMES_KEY, "Region, Rep, Item, Units, Cost, Total");
+            builder.SetProperty(MongoDBParser.COLUMN_OBJECT_TYPES_KEY, "StringDimension,StringDimension,StringDimension, IntegerFact,FloatFact, FloatFact");
+
+            tested.ConfigureItSelf(builder.Build());
+            Check(tested);
+        }
+        
+        [TestMethod]
+        [TestCategory("PostgreSQLParser")]
+        [TestCategory("TestValidReadingSampleData")]
+        public void PostgreSQLDataBaseParserReadingData()
+        {
+            PostgreSQLParser tested = new PostgreSQLParser();
+
+            tested.Init();
+            ParserConfiguration.Builder builder = ParserConfiguration.GetBuilder();
+            builder.SetParserName(tested.Arguments.ParserName);
+            builder.SetProperty(PostgreSQLParser.SERVER_IP_KEY, "localhost");
+            builder.SetProperty(PostgreSQLParser.SERVER_PORT_KEY, "5432");
+            builder.SetProperty(PostgreSQLParser.DATABASE_NAME_KEY, "dsourcesbase");
+            builder.SetProperty(PostgreSQLParser.USER_NAME_KEY, "dsourcesclient");
+            builder.SetProperty(PostgreSQLParser.USER_PASSWORD_KEY, "dsourcesclient");
+            builder.SetProperty(PostgreSQLParser.REQUEST_KEY, "select region, rep, item, units, cost, total from sampledata");
+            builder.SetProperty(PostgreSQLParser.COLUMN_OBJECT_TYPES_KEY, "StringDimension,StringDimension,StringDimension, IntegerFact,FloatFact, FloatFact");
+
+            tested.ConfigureItSelf(builder.Build());
+            Check(tested);
+        }
+    }
+}

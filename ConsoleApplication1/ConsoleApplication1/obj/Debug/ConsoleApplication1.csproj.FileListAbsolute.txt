@@ -1,0 +1,8 @@
+C:\Users\Mateusz\documents\visual studio 2012\Projects\ConsoleApplication1\ConsoleApplication1\bin\Debug\ConsoleApplication1.exe.config
+C:\Users\Mateusz\documents\visual studio 2012\Projects\ConsoleApplication1\ConsoleApplication1\bin\Debug\ConsoleApplication1.exe
+C:\Users\Mateusz\documents\visual studio 2012\Projects\ConsoleApplication1\ConsoleApplication1\bin\Debug\ConsoleApplication1.pdb
+C:\Users\Mateusz\documents\visual studio 2012\Projects\ConsoleApplication1\ConsoleApplication1\bin\Debug\Mono.Security.dll
+C:\Users\Mateusz\documents\visual studio 2012\Projects\ConsoleApplication1\ConsoleApplication1\bin\Debug\Npgsql.dll
+C:\Users\Mateusz\documents\visual studio 2012\Projects\ConsoleApplication1\ConsoleApplication1\obj\Debug\ConsoleApplication1.exe
+C:\Users\Mateusz\documents\visual studio 2012\Projects\ConsoleApplication1\ConsoleApplication1\obj\Debug\ConsoleApplication1.pdb
+C:\Users\Mateusz\documents\visual studio 2012\Projects\ConsoleApplication1\ConsoleApplication1\obj\Debug\ConsoleApplication1.csprojResolveAssemblyReference.cache

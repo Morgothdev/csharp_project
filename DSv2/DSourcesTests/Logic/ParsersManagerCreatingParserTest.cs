@@ -1,0 +1,103 @@
+﻿using System;
+using NMock2;
+using System.Collections.Generic;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using DSources.Parsers;
+
+namespace DSources.Logic
+{
+    [TestClass]
+    public class ParsersManagerCreatingParserTest
+    {
+        InternalParser CreateMockedParser(Mockery mockery, String Name, String argValue)
+        {
+            ParserArgumentInfo arg = (ParserArgumentInfo)mockery.NewMock(typeof(ParserArgumentInfo), argValue, ArgType.Text, "test");
+            ICollection<ParserArgumentInfo> arguments = new List<ParserArgumentInfo>();
+            arguments.Add(arg);
+
+            ParserInfo p1Info = (ParserInfo)mockery.NewMock(typeof(ParserInfo));
+            Expect.On(p1Info).Method("GetNecessaryArgumentsAsCollection").Will(Return.Value(arguments));
+            Expect.On(p1Info).GetProperty("ParserName").Will(Return.Value(Name));
+
+            InternalParser p1 = (InternalParser)mockery.NewMock(typeof(InternalParser));
+            Expect.On(p1).GetProperty("Arguments").Will(Return.Value(p1Info));
+
+            return p1;
+        }
+
+        [TestMethod]
+        [TestCategory("ParserManager")]
+        [TestCategory("Implemented")]
+        public void TestCreatingExistingParser()
+        {
+            Mockery mockery = new Mockery();
+
+            ParsersManager tested = ParsersManager.Reset();
+
+            ParserConfiguration confMock = (ParserConfiguration)mockery.NewMock(typeof(ParserConfiguration));
+            Expect.On(confMock).Method("GetParserName").Will(Return.Value("Existing2"));
+
+            ICollection<InternalParser> parsersList = new List<InternalParser>();
+            parsersList.Add(CreateMockedParser(mockery, "Existing1","Ala ma kota"));
+
+            InternalParser clonedMock = (InternalParser)mockery.NewMock(typeof(InternalParser));
+            Expect.On(clonedMock).Method("Init");
+            Expect.On(clonedMock).Method("ConfigureItSelf").With(confMock);
+
+            InternalParser existing2 = CreateMockedParser(mockery, "Existing2", "Ela ma psa");
+            Expect.On(existing2).GetProperty("IsValid").Will(Return.Value(true));
+            Expect.On(existing2).Method("ClonePrototype").Will(Return.Value(clonedMock));
+            
+            parsersList.Add(existing2);
+
+            tested.AcceptParsersCollection(parsersList);
+
+            InternalParser generated = tested.GetParser(confMock);
+            Assert.IsNotNull(generated);
+            Assert.AreSame(clonedMock, generated);
+        }
+
+
+        [TestMethod]
+        [TestCategory("ParserManager")]
+        [TestCategory("Implemented")]
+        public void TestCreatingNotExistingParser()
+        {
+            Mockery mockery = new Mockery();
+
+            ParsersManager tested = ParsersManager.Reset();
+
+            ICollection<InternalParser> parsersList = new List<InternalParser>();
+            parsersList.Add(CreateMockedParser(mockery,"Existing1","ala ma kota"));
+            parsersList.Add(CreateMockedParser(mockery, "Existing2","Ela ma psa"));
+            tested.AcceptParsersCollection(parsersList);
+            
+            ParserConfiguration confMock = (ParserConfiguration)mockery.NewMock(typeof(ParserConfiguration));
+            Expect.On(confMock).Method("GetParserName").Will(Return.Value("NotExistingParser"));
+
+            InternalParser generated = tested.GetParser(confMock);
+            ParserIsStub(generated);
+        }
+
+        private static void ParserIsStub(InternalParser generated)
+        {
+            Assert.IsNotNull(generated);
+            Assert.IsFalse(generated.IsValid);
+        }
+
+        [TestMethod]
+        [TestCategory("ParserManager")]
+        [TestCategory("Implemented")]
+        public void TestStubNotNullParserOnInvalidConfiguration()
+        {
+            ParsersManager tested = ParsersManager.Reset();
+            Mockery mockery = new Mockery();
+            ParserConfiguration confMock = (ParserConfiguration)mockery.NewMock(typeof(ParserConfiguration));
+            Expect.On(confMock).Method("GetParserName").Will(Return.Value(null));
+            
+            InternalParser generated = tested.GetParser(confMock);
+            
+            ParserIsStub(generated);
+        }
+    }
+}
