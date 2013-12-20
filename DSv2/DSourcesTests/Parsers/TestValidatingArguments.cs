@@ -53,7 +53,7 @@ namespace DSources.Parsers
         public void MissingArgumentsCSV()
         {
             ParserConfiguration.Builder builder = ParserConfiguration.GetBuilder();
-            builder.SetProperty(CSVParser.FILE_PATH_KEY, "./SampleData.csv");
+            builder.SetProperty(CSVParser.FILE_PATH_KEY, "C:/tests/SampleData.csv");
             builder.SetProperty(CSVParser.COLUMN_OBJECT_TYPES_KEY, "StringDimension,StringDimension,StringDimension, IntegerFact,FloatFact, FloatFact");
             ParserConfiguration conf = builder.Build();
             Console.WriteLine("size " + conf._properties.Count);
@@ -75,7 +75,7 @@ namespace DSources.Parsers
         public void MissingArgumentsXLS()
         {
             ParserConfiguration.Builder builder = ParserConfiguration.GetBuilder();
-            builder.SetProperty(XLSParser.FILE_PATH_KEY, "./SampleData.xls");
+            builder.SetProperty(XLSParser.FILE_PATH_KEY, "C:/tests/SampleData.xls");
             builder.SetProperty(XLSParser.WORK_SHEET_NAME_KEY, "test");
             builder.SetProperty(XLSParser.COLUMN_OBJECT_TYPES_KEY, "StringDimension,StringDimension,StringDimension, IntegerFact,FloatFact, FloatFact");
             ParserConfiguration conf = builder.Build();
@@ -97,7 +97,7 @@ namespace DSources.Parsers
         public void MissingArgumentsXML()
         {
             ParserConfiguration.Builder builder = ParserConfiguration.GetBuilder();
-            builder.SetProperty(XMLParser.FILE_PATH_KEY, "./SampleData2.xml");
+            builder.SetProperty(XMLParser.FILE_PATH_KEY, "C:/tests/SampleData2.xml");
             builder.SetProperty(XMLParser.ORDER_IN_DATA, "column by column");
             builder.SetProperty(XMLParser.COLUMN_OBJECT_TYPES_KEY, "StringDimension,StringDimension,StringDimension, IntegerFact,FloatFact, FloatFact");
             ParserConfiguration conf = builder.Build();

@@ -37,7 +37,7 @@ namespace DSources
             DSourcesFacade facade = DSourcesFacade.Instance;
             ParserConfiguration.Builder builder = ParserConfiguration.GetBuilder();
             builder.SetParserName("CSV File");
-            builder.SetProperty(CSVParser.FILE_PATH_KEY, "./test.csv");
+            builder.SetProperty(CSVParser.FILE_PATH_KEY, "C:/tests/test.csv");
             builder.SetProperty(CSVParser.COLUMN_OBJECT_TYPES_KEY, "Dimension,IntegerFact");
             ParserBridge returned = (ParserBridge)facade.GetParser(builder.Build());
             Assert.IsTrue(((AbstractParser)returned.parser).IsTheSameAs(new CSVParser()));
@@ -51,7 +51,7 @@ namespace DSources
             DSourcesFacade facade = DSourcesFacade.Instance;
             ParserConfiguration.Builder builder = ParserConfiguration.GetBuilder();
             builder.SetParserName("XML File");
-            builder.SetProperty(CSVParser.FILE_PATH_KEY, "./SampleData.xml");
+            builder.SetProperty(CSVParser.FILE_PATH_KEY, "C:/tests/SampleData.xml");
             builder.SetProperty(CSVParser.ORDER_IN_DATA, "row by row");
             builder.SetProperty(CSVParser.COLUMN_OBJECT_TYPES_KEY, "StringDimension,StringDimension,StringDimension, IntegerFact,FloatFact, FloatFact");
             ParserBridge returned = (ParserBridge)facade.GetParser(builder.Build());
@@ -68,7 +68,7 @@ namespace DSources
             DSourcesFacade facade = DSourcesFacade.Instance;
             ParserConfiguration.Builder builder = ParserConfiguration.GetBuilder();
             builder.SetParserName("XML File");
-            builder.SetProperty(CSVParser.FILE_PATH_KEY, "./testa.xml");
+            builder.SetProperty(CSVParser.FILE_PATH_KEY, "C:/tests/testa.xml");
             builder.SetProperty(CSVParser.COLUMN_OBJECT_TYPES_KEY, "Dimension,IntegerFact");
             ParserBridge returned = (ParserBridge)facade.GetParser(builder.Build());
             Assert.IsTrue(((AbstractParser)returned.parser).IsTheSameAs(new XMLParser()));

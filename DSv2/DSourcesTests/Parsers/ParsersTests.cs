@@ -29,7 +29,8 @@ namespace DSources.Parsers
             {
                 Console.WriteLine("problems.Count=" + tested.Problems.Count);
                 Console.WriteLine(e.Message);
-                tested.Problems.Select(p => { Console.WriteLine(p); return p; });
+
+                Console.WriteLine(String.Join("\n", tested.Problems.ToArray()));
                 Assert.Fail();
             }
         }
@@ -101,7 +102,7 @@ namespace DSources.Parsers
             CSVParser tested = new CSVParser();
             ParserConfiguration.Builder builder = ParserConfiguration.GetBuilder();
             tested.Init();
-            builder.SetProperty(CSVParser.FILE_PATH_KEY, "./SampleData.csv");
+            builder.SetProperty(CSVParser.FILE_PATH_KEY, "C:/tests/SampleData.csv");
             builder.SetProperty(CSVParser.COLUMN_OBJECT_TYPES_KEY, "StringDimension,StringDimension,StringDimension, IntegerFact,FloatFact, FloatFact");
             tested.ConfigureItSelf(builder.Build());
             Check(tested);
@@ -117,7 +118,7 @@ namespace DSources.Parsers
             instance.GetParsersInfo();
             ParserConfiguration.Builder builder = ParserConfiguration.GetBuilder();
             builder.SetParserName("CSV File");
-            builder.SetProperty(CSVParser.FILE_PATH_KEY, "./SampleData.csv");
+            builder.SetProperty(CSVParser.FILE_PATH_KEY, "C:/tests/SampleData.csv");
             builder.SetProperty(CSVParser.COLUMN_OBJECT_TYPES_KEY, "StringDimension,StringDimension,StringDimension, IntegerFact,FloatFact, FloatFact");
             Parser tested = instance.GetParser(builder.Build());
             CheckMe(tested);
@@ -134,7 +135,7 @@ namespace DSources.Parsers
             ParserConfiguration.Builder builder = ParserConfiguration.GetBuilder();
             tested.Init();
             builder.SetParserName("XML File Parser");
-            builder.SetProperty(XMLParser.FILE_PATH_KEY, "./SampleData.xml");
+            builder.SetProperty(XMLParser.FILE_PATH_KEY, "C:/tests/SampleData.xml");
             builder.SetProperty(XMLParser.ORDER_IN_DATA, "row by row");
             builder.SetProperty(XMLParser.COLUMN_OBJECT_TYPES_KEY, "StringDimension,StringDimension,StringDimension, IntegerFact,FloatFact, FloatFact");
             tested.ConfigureItSelf(builder.Build());
@@ -150,7 +151,7 @@ namespace DSources.Parsers
             ParserConfiguration.Builder builder = ParserConfiguration.GetBuilder();
             tested.Init();
             builder.SetParserName("XML File Parser");
-            builder.SetProperty(XMLParser.FILE_PATH_KEY, "./SampleData2.xml");
+            builder.SetProperty(XMLParser.FILE_PATH_KEY, "C:/tests/SampleData2.xml");
             builder.SetProperty(XMLParser.ORDER_IN_DATA, "column by column");
             builder.SetProperty(XMLParser.COLUMN_OBJECT_TYPES_KEY, "StringDimension,StringDimension,StringDimension, IntegerFact,FloatFact, FloatFact");
             tested.ConfigureItSelf(builder.Build());
@@ -171,7 +172,7 @@ namespace DSources.Parsers
             ParserConfiguration.Builder builder = ParserConfiguration.GetBuilder();
             tested.Init();
             builder.SetParserName(tested.Arguments.ParserName);
-            builder.SetProperty(XLSParser.FILE_PATH_KEY, "./SampleData.xls");
+            builder.SetProperty(XLSParser.FILE_PATH_KEY, "C:/tests/SampleData.xls");
             builder.SetProperty(XLSParser.WORK_SHEET_NAME_KEY, "test");
             builder.SetProperty(XLSParser.COLUMN_OBJECT_TYPES_KEY, "StringDimension,StringDimension,StringDimension, IntegerFact,FloatFact, FloatFact");
             tested.ConfigureItSelf(builder.Build());
