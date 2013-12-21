@@ -74,7 +74,6 @@ namespace DSources.Logic
             }
             
             result = result.ClonePrototype();
-            result.Init();
             result.ConfigureItSelf(configuration);
             return result;
         }

@@ -18,6 +18,7 @@ namespace DSources.Parsers
      */
     class PostgreSQLParser : SqlDbParser
     {
+        public static string Name = "PostgreSQL DataBase";
 
         internal override bool IsFinal { get { return true; } }
 
@@ -25,13 +26,15 @@ namespace DSources.Parsers
 
         internal override InternalParser ClonePrototype()
         {
-            return new PostgreSQLParser();
+            InternalParser nev = new PostgreSQLParser();
+            nev.Init();
+            return nev;
         }
 
         internal override void Init()
         {
             base.Init();
-            Arguments.ParserName = "PostgreSQL DataBase";
+            Arguments.ParserName =Name;
         }
 
         internal override void ConfigureItSelf(Logic.ParserConfiguration configuration)
@@ -39,8 +42,8 @@ namespace DSources.Parsers
             base.ConfigureItSelf(configuration);
         }
 
-        internal override DbConnectionStringBuilder getOdbcConnectionStringBuilder() { return new NpgsqlConnectionStringBuilder(); }
-        internal override DbConnection getOdbcConnection(string connectionString) { return new NpgsqlConnection(connectionString); }
-        internal override DbCommand getOdbcCommand(string sql, DbConnection connection) { return new NpgsqlCommand(sql, (NpgsqlConnection)connection); }
+        internal override DbConnectionStringBuilder getDbConnectionStringBuilder() { return new NpgsqlConnectionStringBuilder(); }
+        internal override DbConnection getDbConnection(string connectionString) { return new NpgsqlConnection(connectionString); }
+        internal override DbCommand getDbCommand(string sql, DbConnection connection) { return new NpgsqlCommand(sql, (NpgsqlConnection)connection); }
     }
 }

@@ -155,6 +155,5 @@ namespace DSources.Parsers
         {
             throw new NotImplementedException();
         }
-
     }
 }

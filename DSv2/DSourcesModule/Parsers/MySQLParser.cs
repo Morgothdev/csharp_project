@@ -17,6 +17,7 @@ namespace DSources.Parsers
      */
     class MySQLParser : SqlDbParser
     {
+        public static string Name = "MySQL DataBase";
 
         internal override bool IsFinal { get { return true; } }
 
@@ -24,18 +25,20 @@ namespace DSources.Parsers
 
         internal override InternalParser ClonePrototype()
         {
-            return new MySQLParser();
+            InternalParser nev = new MySQLParser();
+            nev.Init();
+            return nev;
         }
 
         internal override void Init()
         {
             base.Init();
-            Arguments.ParserName = "MySQL DataBase";
+            Arguments.ParserName =Name;
         }
 
-        internal override DbConnectionStringBuilder getOdbcConnectionStringBuilder() { return new MySqlConnectionStringBuilder(); }
-        internal override DbConnection getOdbcConnection(string connectionString) { return new MySqlConnection(connectionString); }
-        internal override DbCommand getOdbcCommand(string sql, DbConnection connection) { return new MySqlCommand(sql, (MySqlConnection)connection); }
+        internal override DbConnectionStringBuilder getDbConnectionStringBuilder() { return new MySqlConnectionStringBuilder(); }
+        internal override DbConnection getDbConnection(string connectionString) { return new MySqlConnection(connectionString); }
+        internal override DbCommand getDbCommand(string sql, DbConnection connection) { return new MySqlCommand(sql, (MySqlConnection)connection); }
 
     }
 }

@@ -202,7 +202,7 @@ namespace DSources.Parsers
         }
 
 
-        [TestMethod]
+        //[TestMethod]
         [TestCategory("MSSQLParser")]
         [TestCategory("TestValidReadingSampleData")]
         public void MSSQLDataBaseParserReadingData()

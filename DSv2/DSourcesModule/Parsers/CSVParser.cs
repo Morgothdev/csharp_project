@@ -16,16 +16,20 @@ namespace DSources.Parsers
 
         internal override bool IsValid { get { return problems.Count == 0; } }
 
+        internal static string Name = "CSV File";
+
         internal override void Init()
         {
             base.Init();
-            Arguments.ParserName = "CSV File";
+            Arguments.ParserName = Name;
             Arguments.RemoveArgument(CSVParser.ORDER_IN_DATA);
         }
 
         internal override InternalParser ClonePrototype()
         {
-            return new CSVParser();
+            InternalParser nev = new CSVParser();
+            nev.Init();
+            return nev;
         }
 
 
@@ -52,6 +56,5 @@ namespace DSources.Parsers
         }
 
         internal override string parserName { get { return "CSV"; } }
-
     }
 }

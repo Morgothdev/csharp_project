@@ -1,0 +1,9 @@
+C:\Users\Mateusz\Documents\Visual Studio 2012\Projects\DSv2\DSourcesModule\bin\x64\Debug\DSourcesModule.dll
+C:\Users\Mateusz\Documents\Visual Studio 2012\Projects\DSv2\DSourcesModule\bin\x64\Debug\DSourcesModule.pdb
+C:\Users\Mateusz\Documents\Visual Studio 2012\Projects\DSv2\DSourcesModule\bin\x64\Debug\MongoDB.Bson.dll
+C:\Users\Mateusz\Documents\Visual Studio 2012\Projects\DSv2\DSourcesModule\bin\x64\Debug\MongoDB.Driver.dll
+C:\Users\Mateusz\Documents\Visual Studio 2012\Projects\DSv2\DSourcesModule\bin\x64\Debug\Mono.Security.dll
+C:\Users\Mateusz\Documents\Visual Studio 2012\Projects\DSv2\DSourcesModule\bin\x64\Debug\MySql.Data.dll
+C:\Users\Mateusz\Documents\Visual Studio 2012\Projects\DSv2\DSourcesModule\bin\x64\Debug\Npgsql.dll
+C:\Users\Mateusz\Documents\Visual Studio 2012\Projects\DSv2\DSourcesModule\obj\x64\Debug\DSourcesModule.dll
+C:\Users\Mateusz\Documents\Visual Studio 2012\Projects\DSv2\DSourcesModule\obj\x64\Debug\DSourcesModule.pdb

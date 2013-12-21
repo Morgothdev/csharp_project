@@ -41,19 +41,22 @@ namespace DSources.Parsers
         private XName rootLabel = "data";
         private XName columnNameLabel = "column-name";
         private XName secondNestLabel = "cell";
+        internal static string Name = "XML File";
 
         internal override bool IsFinal { get { return true; } }
 
         internal override void Init()
         {
             base.Init();
-            Arguments.ParserName = "XML File";
+            Arguments.ParserName = Name;
         }
 
 
         internal override InternalParser ClonePrototype()
         {
-            return new XMLParser();
+            InternalParser nev=  new XMLParser();
+            nev.Init();
+            return nev;
         }
 
         internal override void ConfigureItSelf(Logic.ParserConfiguration configuration)

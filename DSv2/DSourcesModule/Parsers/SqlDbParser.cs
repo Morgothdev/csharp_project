@@ -12,15 +12,15 @@ namespace DSources.Parsers
     /**
      * Nie funkcjonalny pośredni czytnik dla popularnych sqlowych baz danych.
      */
-    abstract class SqlDbParser : DBParser
+    abstract class SqlDbParser : DBParser, DbReadable
     {
         internal DbConnection connectionToBase;
 
         internal override bool IsFinal { get { return false; } }
 
-        internal abstract DbConnectionStringBuilder getOdbcConnectionStringBuilder();
-        internal abstract DbConnection getOdbcConnection(string connectionString);
-        internal abstract DbCommand getOdbcCommand(string sql, DbConnection connection);
+        internal abstract DbConnectionStringBuilder getDbConnectionStringBuilder();
+        internal abstract DbConnection getDbConnection(string connectionString);
+        internal abstract DbCommand getDbCommand(string sql, DbConnection connection);
 
         internal override InternalParser ClonePrototype()
         {
@@ -36,14 +36,14 @@ namespace DSources.Parsers
         {
             base.ConfigureItSelf(configuration);
 
-            DbConnectionStringBuilder builder = getOdbcConnectionStringBuilder();
+            DbConnectionStringBuilder builder = getDbConnectionStringBuilder();
             builder.Add("server", serverIp);
             if (serverPort > 0) builder.Add("port", serverPort);
             builder.Add("database", databaseName);
             builder.Add("user id", userName);
             builder.Add("password", userPassword);
             if (R.DEBUG) Console.WriteLine("used constr: || " + builder.ConnectionString + " ||");
-            connectionToBase = getOdbcConnection(builder.ConnectionString);
+            connectionToBase = getDbConnection(builder.ConnectionString);
 
             try
             {
@@ -57,44 +57,25 @@ namespace DSources.Parsers
             }
         }
 
+
         internal override void Read()
         {
-            DbDataReader reader = null;
-            try
-            {
-                connectionToBase.Open();
-                DbCommand cmd = getOdbcCommand(request, connectionToBase);
-                reader = cmd.ExecuteReader();
-                int Columns = reader.FieldCount;
-                for (int i = 0; i < Columns; ++i)
-                {
-                    ParserCore.SetColumnName(reader.GetName(i));
-                }
-                ParserCore.GotoStart();
-                while (reader.Read())
-                {
-                    for (int i = 0; i < Columns; ++i)
-                    {
-                        ParserCore.AddCellInRowAndGoToNextColumn(Convert.ToString(reader.GetValue(i)));
-                    }
-                    ParserCore.GotoNextRow();
-                }
-            }
-            catch (Exception err)
-            {
-                throw new Exception(err.Message);
-            }
-            finally
-            {
-                if (reader != null)
-                {
-                    reader.Close();
-                }
-                if (connectionToBase != null)
-                {
-                    connectionToBase.Close();
-                }
-            }
+            DbReader.Read(this);
+        }
+
+        public virtual DbConnection GetConnectionToBase()
+        {
+            return connectionToBase;
+        }
+
+        public ParserCore GetParserCore()
+        {
+            return ParserCore;
+        }
+
+        public DbCommand GetDbCommand()
+        {
+            return getDbCommand(request, connectionToBase);
         }
     }
 }

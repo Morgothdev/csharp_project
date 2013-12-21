@@ -17,25 +17,28 @@ namespace DSources.Parsers
      */
     class MSSQLParser : SqlDbParser
     {
+        internal static string Name = "MSSQL DataBase";
         internal override bool IsFinal { get { return true; } }
 
         internal override string parserName { get { return "MSSQL"; } }
 
         internal override InternalParser ClonePrototype()
         {
-            return new MySQLParser();
+            InternalParser nev = new MySQLParser();
+            nev.Init();
+            return nev;
         }
 
         internal override void Init()
         {
             base.Init();
-            Arguments.ParserName = "MSSQL DataBase";
+            Arguments.ParserName=Name;
             Arguments.RemoveArgument(SqlDbParser.SERVER_PORT_KEY);
         }
 
-        internal override DbConnectionStringBuilder getOdbcConnectionStringBuilder() { return new SqlConnectionStringBuilder(); }
-        internal override DbConnection getOdbcConnection(string connectionString) { return new SqlConnection(connectionString); }
-        internal override DbCommand getOdbcCommand(string sql, DbConnection connection) { return new SqlCommand(sql, (SqlConnection)connection); }
+        internal override DbConnectionStringBuilder getDbConnectionStringBuilder() { return new SqlConnectionStringBuilder(); }
+        internal override DbConnection getDbConnection(string connectionString) { return new SqlConnection(connectionString); }
+        internal override DbCommand getDbCommand(string sql, DbConnection connection) { return new SqlCommand(sql, (SqlConnection)connection); }
 
     }
 }

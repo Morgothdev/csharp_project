@@ -25,6 +25,7 @@ namespace DSources.Parsers
         private string collectionName;
         private string[] fieldNames;
         private bool DEBUG;
+        public static string Name = "MongoDB Parser";
 
         internal override bool IsFinal { get { return true; } }
 
@@ -36,7 +37,7 @@ namespace DSources.Parsers
         internal override void Init()
         {
             base.Init();
-            Arguments.ParserName = "MongoDB";
+            Arguments.ParserName=Name ;
             Arguments.RemoveArgument(REQUEST_KEY);
             ParserArgumentInfo collectionName = new ParserArgumentInfo(COLLECTION_NAME_KEY, ArgType.Text, "Name of collection to fetch.");
             ParserArgumentInfo fieldNames = new ParserArgumentInfo(FIELD_NAMES_KEY, ArgType.Text, "Field names to get from colection.");

@@ -21,16 +21,19 @@ namespace DSources.Parsers
         internal override bool IsFinal { get { return true; } }
 
         internal string workSheetName = null;
+        public static string Name = "Excel File";
 
         internal override InternalParser ClonePrototype()
         {
-            return new XLSParser();
+            InternalParser nev = new XLSParser();
+            nev.Init();
+            return nev;
         }
 
         internal override void Init()
         {
             base.Init();
-            Arguments.ParserName = "Excel (to 2007) File";
+            Arguments.ParserName =Name;
             Arguments.RemoveArgument(ORDER_IN_DATA);
             ParserArgumentInfo workSheetName = new ParserArgumentInfo(WORK_SHEET_NAME_KEY, ArgType.Text, "The name of the work sheet from which the parser will read");
             Arguments.AddArgument(workSheetName);
@@ -54,7 +57,7 @@ namespace DSources.Parsers
 
         internal override void Read()
         {
-            OleDbConnection con = new OleDbConnection(@"Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + FilePath + ";Extended Properties=Excel 8.0");
+            OleDbConnection con = new OleDbConnection(@"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + FilePath + ";Extended Properties=Excel 8.0");
             string sql = "select * from [" + workSheetName + "$]";
             Console.WriteLine(sql);
             OleDbDataAdapter da = new OleDbDataAdapter(sql, con);
