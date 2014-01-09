@@ -2,9 +2,8 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Runtime.Serialization;
 using System.Collections.Generic;
-using DSources.Logic;
 
-namespace DSourcesLogic
+namespace DSources.Logic
 {
     [TestClass]
     public class ParserConfigurationTest

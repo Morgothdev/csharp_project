@@ -12,18 +12,18 @@ namespace DSources.Parsers
      * Parser czytający z pliku, wymaga podania w argumentach dodatkowo ścieżki do pliku.
      */
 
-    class FileParser : InputStreamParser
+    abstract class FileParser : InputStreamParser
     {
         internal static String FILE_PATH_KEY = "File path";
 
-        internal override bool IsFinal { get { return false; } }
-
         internal string FilePath { get; set; }
 
-        internal override InternalParser ClonePrototype()
-        {
-            return new FileParser();
-        }
+        //internal override InternalParser ClonePrototype()
+        //{
+        //    InternalParser nev = new FileParser();
+        //    nev.Init();
+        //    return nev;
+        //}
 
         internal override void Init()
         {
@@ -68,8 +68,5 @@ namespace DSources.Parsers
         {
             return File.ReadAllText(FilePath);
         }
-
-        internal override string parserName { get { return "File"; } }
-
     }
 }

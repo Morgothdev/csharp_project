@@ -9,10 +9,8 @@ namespace DSources.Parsers
     /** 
      * Niefunkcjonalny parser dla baz danych.
      */
-    class DBParser : AbstractParser
+    abstract class DBParser : AbstractParser
     {
-        internal override bool IsFinal { get { return false; } }
-
         internal static string SERVER_IP_KEY = "Server IP";
         internal static string SERVER_PORT_KEY = "Server port";
         internal static string DATABASE_NAME_KEY = "Database name";
@@ -26,11 +24,6 @@ namespace DSources.Parsers
         internal string userName;
         internal string userPassword;
         internal string request;
-
-        internal override InternalParser ClonePrototype()
-        {
-            throw new NotSupportedException();
-        }
 
         internal override void Init()
         {

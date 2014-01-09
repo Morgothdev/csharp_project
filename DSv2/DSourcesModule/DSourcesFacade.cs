@@ -48,6 +48,8 @@ namespace DSources
         }
 
         public Parser GetParser(ParserConfiguration configuration){
+            string[] items = configuration.getProperties().Select<KeyValuePair<string, string>, string>(k => String.Join("=", k.Key, k.Value)).ToArray();
+            Console.WriteLine("used configurations:\n"+String.Join("&",items));
             return new ParserBridge { parser = _parsersManager.GetParser(configuration) };
         }
 

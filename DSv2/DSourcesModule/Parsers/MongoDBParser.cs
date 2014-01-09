@@ -24,14 +24,15 @@ namespace DSources.Parsers
         internal static string FIELD_NAMES_KEY = "Field names";
         private string collectionName;
         private string[] fieldNames;
-        private bool DEBUG;
         public static string Name = "MongoDB Parser";
 
         internal override bool IsFinal { get { return true; } }
 
         internal override InternalParser ClonePrototype()
         {
-            return new MongoDBParser();
+            InternalParser nev = new MongoDBParser();
+            nev.Init();
+            return nev;
         }
 
         internal override void Init()
@@ -53,7 +54,7 @@ namespace DSources.Parsers
             if (Arguments.ContainsArgument(COLLECTION_NAME_KEY))
             {
                 collectionName = configuration.GetProperty(COLLECTION_NAME_KEY);
-                Console.WriteLine("collectionName: " + collectionName);
+                if (R.DEBUG) Console.WriteLine("collectionName: " + collectionName);
                 if (collectionName == null)
                 {
                     problems.Add("Absent argument: " + COLLECTION_NAME_KEY);
@@ -63,7 +64,7 @@ namespace DSources.Parsers
             if (Arguments.ContainsArgument(FIELD_NAMES_KEY))
             {
                 string fieldNamesString = configuration.GetProperty(FIELD_NAMES_KEY);
-                Console.WriteLine("fieldNamesString: " + fieldNamesString);
+                if (R.DEBUG) Console.WriteLine("fieldNamesString: " + fieldNamesString);
                 if (fieldNamesString == null)
                 {
                     problems.Add("Absent argument: " + FIELD_NAMES_KEY);
@@ -92,9 +93,9 @@ namespace DSources.Parsers
                 }
                 catch (MongoAuthenticationException e)
                 {
-                    if (e.GetBaseException() != null)
-                    { problems.Add(e.Message + " " + e.GetBaseException().Message); }
-                    else { problems.Add(e.Message); }
+                    string message = e.Message;
+                    if (e.GetBaseException() != null) { message = message + " " + e.GetBaseException().Message; }
+                    problems.Add(e.Message);
                 }
                 catch (MongoException e)
                 {

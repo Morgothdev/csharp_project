@@ -21,7 +21,7 @@ namespace DSources.Parsers
 
         internal override bool IsFinal { get { return true; } }
 
-        internal override string parserName { get { return "MySQL"; } }
+        //internal override string parserName { get { return "MySQL"; } }
 
         internal override InternalParser ClonePrototype()
         {

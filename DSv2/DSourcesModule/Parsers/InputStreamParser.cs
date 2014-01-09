@@ -10,14 +10,10 @@ namespace DSources.Parsers
      * Parser danych ze streamu, IsFinal == false, nie będzie zawierał się w liście ParserInfo zwróconej z DSources.DSourcesFacade
      * Więc jest bezużyteczny dla klienta korzystającego z modułu.
      */
-    class InputStreamParser : AbstractParser
+    abstract class InputStreamParser : AbstractParser
     {
 
         public static string ORDER_IN_DATA = "Order in data";
-
-        internal override bool IsFinal { get { return false; } }
-
-        internal override string parserName { get { return "InputStream"; } }
 
         internal bool RowsInFirstNest { get; set; }
 
@@ -26,13 +22,13 @@ namespace DSources.Parsers
             base.ConfigureItSelf(configuration);
             if (Arguments.ContainsArgument(ORDER_IN_DATA))
             {
-                //Console.WriteLine(configuration.GetProperty(ORDER_IN_DATA).ToLower());
+                if (R.DEBUG) Console.WriteLine(configuration.GetProperty(ORDER_IN_DATA));
                 string order = configuration.GetProperty(ORDER_IN_DATA);
 
                 if (order == null)
                 {
                     problems.Add("Absent argument: " + ORDER_IN_DATA);
-                    Console.WriteLine("Absent argument: " + ORDER_IN_DATA);
+                    if (R.DEBUG) Console.WriteLine("Absent argument: " + ORDER_IN_DATA);
                 }
                 else
                 {
@@ -40,7 +36,7 @@ namespace DSources.Parsers
                     if (!order.Equals("row by row") && !order.Equals("column by column"))
                     {
                         problems.Add("Unrecognized order: " + order);
-                        Console.WriteLine("Unrecognized order: " + order);
+                        if (R.DEBUG) Console.WriteLine("Unrecognized order: " + order);
                     }
                     RowsInFirstNest = order.Equals("row by row");
                 }
@@ -49,8 +45,6 @@ namespace DSources.Parsers
             {
                 RowsInFirstNest = true;
             }
-
-            //Console.WriteLine("abstract configured: " + roles + "|" + objectTypes);
         }
 
         internal override void Init()
@@ -60,6 +54,9 @@ namespace DSources.Parsers
 
             Arguments.AddArgument(order_in_data);
         }
+
+
+        internal abstract string ReadData();
 
         internal override void Read()
         {
@@ -109,6 +106,9 @@ namespace DSources.Parsers
                 ParserCore.GotoNextColumn();
             }
         }
+
+        internal abstract List<string> SplitSecondNest(string firstNest);
+        internal abstract List<string> SplitFirstNest(string Data);
 
     }
 }

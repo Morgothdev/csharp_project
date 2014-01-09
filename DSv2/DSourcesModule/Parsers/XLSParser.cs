@@ -77,7 +77,14 @@ namespace DSources.Parsers
             }
         }
 
+        internal override List<string> SplitSecondNest(string firstNest)
+        {
+            throw new NotSupportedException();
+        }
 
-        internal override string parserName { get { return "File"; } }
+        internal override List<string> SplitFirstNest(string Data)
+        {
+            throw new NotSupportedException();
+        }
     }
 }

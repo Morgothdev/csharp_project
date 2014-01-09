@@ -1,0 +1,176 @@
+﻿using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using DSources.Parsers;
+using DSources.Logic;
+using System.Linq;
+
+namespace DSources.ACCEPTANCE
+{
+    [TestClass]
+    public class Pobranie_parsera_źródła_danych
+    {
+        private void Check(Parser tested)
+        {
+            if (!tested.IsValid)
+            {
+                Console.WriteLine("Parser is not valid!!!!!!!!!!!!");
+                Console.WriteLine(String.Join("\n", tested.Problems.ToArray()));
+                Assert.Fail();
+            }
+        }
+
+        DSourcesFacade facade = DSourcesFacade.Instance;
+
+        [TestMethod]
+        [TestCategory("CSVParser")]
+        [TestCategory("Pobranie__parsera")]
+        [TestCategory("ACCEPTANCE")]
+        public void Pobranie_parsera_CSV()
+        {
+            ParserConfiguration.Builder builder = ParserConfiguration.GetBuilder();
+            builder.SetParserName(CSVParser.Name);
+            builder.SetProperty(CSVParser.FILE_PATH_KEY, "C:/tests/SampleData.csv");
+            builder.SetProperty(CSVParser.COLUMN_OBJECT_TYPES_KEY, "StringDimension,StringDimension,StringDimension, IntegerFact,FloatFact, FloatFact");
+            Parser csv = facade.GetParser(builder.Build());
+            Check(csv);
+        }
+
+        [TestMethod]
+        [TestCategory("XMLParser")]
+        [TestCategory("Pobranie__parsera")]
+        [TestCategory("ACCEPTANCE")]
+        public void Pobranie_parsera()
+        {
+            ParserConfiguration.Builder builder = ParserConfiguration.GetBuilder();
+            builder.SetParserName(XMLParser.Name);
+            builder.SetProperty(XMLParser.FILE_PATH_KEY, "C:/tests/SampleData.xml");
+            builder.SetProperty(XMLParser.ORDER_IN_DATA, "row by row");
+            builder.SetProperty(XMLParser.COLUMN_OBJECT_TYPES_KEY, "StringDimension,StringDimension,StringDimension, IntegerFact,FloatFact, FloatFact");
+            Parser xml = facade.GetParser(builder.Build());
+            Check(xml);
+        }
+
+        [TestMethod]
+        [TestCategory("XMLParser")]
+        [TestCategory("Pobranie__parsera")]
+        [TestCategory("ACCEPTANCE")]
+        public void Pobranie_parsera_XML_v2()
+        {
+            ParserConfiguration.Builder builder = ParserConfiguration.GetBuilder();
+            builder.SetParserName(XMLParser.Name);
+            builder.SetProperty(XMLParser.FILE_PATH_KEY, "C:/tests/SampleData2.xml");
+            builder.SetProperty(XMLParser.ORDER_IN_DATA, "column by column");
+            builder.SetProperty(XMLParser.COLUMN_OBJECT_TYPES_KEY, "StringDimension,StringDimension,StringDimension, IntegerFact,FloatFact, FloatFact");
+            Parser xml = facade.GetParser(builder.Build());
+            Check(xml);
+        }
+
+
+        [TestMethod]
+        [TestCategory("XLSParser")]
+        [TestCategory("Pobranie__parsera")]
+        [TestCategory("ACCEPTANCE")]
+        public void Pobranie_parsera_XLS()
+        {
+            ParserConfiguration.Builder builder = ParserConfiguration.GetBuilder();
+            builder.SetParserName(XLSParser.Name);
+            builder.SetProperty(XLSParser.FILE_PATH_KEY, "C:/tests/SampleData.xls");
+            builder.SetProperty(XLSParser.WORK_SHEET_NAME_KEY, "test");
+            builder.SetProperty(XLSParser.COLUMN_OBJECT_TYPES_KEY, "StringDimension,StringDimension,StringDimension, IntegerFact,FloatFact, FloatFact");
+            Parser xls = facade.GetParser(builder.Build());
+            Check(xls);
+        }
+
+        [TestMethod]
+        [TestCategory("DSNParser")]
+        [TestCategory("Pobranie__parsera")]
+        [TestCategory("ACCEPTANCE")]
+        public void Pobranie_parsera_DSN()
+        {
+            ParserConfiguration.Builder builder = ParserConfiguration.GetBuilder();
+            builder.SetParserName(DSNParser.Name);
+            builder.SetProperty(DSNParser.DSN_NAME_KEY, "DSB_pg_x64");
+            builder.SetProperty(MSSQLParser.REQUEST_KEY, "select region, rep, item, units, cost, total from sampledata");
+            builder.SetProperty(MSSQLParser.COLUMN_OBJECT_TYPES_KEY, "StringDimension,StringDimension,StringDimension, IntegerFact,FloatFact, FloatFact");
+            Parser dsn = facade.GetParser(builder.Build());
+            Check(dsn);
+        }
+
+        [TestMethod]
+        [TestCategory("MySQLParser")]
+        [TestCategory("Pobranie__parsera")]
+        [TestCategory("ACCEPTANCE")]
+        public void Pobranie_parsera_bazy_MySQL()
+        {
+            ParserConfiguration.Builder builder = ParserConfiguration.GetBuilder();
+            builder.SetParserName(MySQLParser.Name);
+            builder.SetProperty(MySQLParser.SERVER_IP_KEY, "sql4.freemysqlhosting.net");
+            builder.SetProperty(MySQLParser.SERVER_PORT_KEY, "3306");
+            builder.SetProperty(MySQLParser.DATABASE_NAME_KEY, "sql424779");
+            builder.SetProperty(MySQLParser.USER_NAME_KEY, "sql424779");
+            builder.SetProperty(MySQLParser.USER_PASSWORD_KEY, "xB4%lD4%");
+            builder.SetProperty(MySQLParser.REQUEST_KEY, "select region, rep, item, units, cost, total from sampledata");
+            builder.SetProperty(MySQLParser.COLUMN_OBJECT_TYPES_KEY, "StringDimension,StringDimension,StringDimension, IntegerFact,FloatFact, FloatFact");
+            Parser mySql = facade.GetParser(builder.Build());
+            Check(mySql);
+        }
+
+
+        [TestMethod]
+        [TestCategory("MSSQLParser")]
+        [TestCategory("Pobranie__parsera")]
+        [TestCategory("ACCEPTANCE")]
+        public void Pobranie_parsera_bazy_MSSQL()
+        {
+            ParserConfiguration.Builder builder = ParserConfiguration.GetBuilder();
+            builder.SetParserName(MSSQLParser.Name);
+            builder.SetProperty(MSSQLParser.SERVER_IP_KEY, "KOMP\\SQLEXPRESS");
+            builder.SetProperty(MSSQLParser.DATABASE_NAME_KEY, "dsourcesbase");
+            builder.SetProperty(MSSQLParser.USER_NAME_KEY, "dsourcesclient");
+            builder.SetProperty(MSSQLParser.USER_PASSWORD_KEY, "client123");
+            builder.SetProperty(MSSQLParser.REQUEST_KEY, "select region, rep, item, units, cost, total from sampledata");
+            builder.SetProperty(MSSQLParser.COLUMN_OBJECT_TYPES_KEY, "StringDimension,StringDimension,StringDimension, IntegerFact,FloatFact, FloatFact");
+            Parser msSql = facade.GetParser(builder.Build());
+            Check(msSql);
+        }
+
+        [TestMethod]
+        [TestCategory("MongoDBParser")]
+        [TestCategory("Pobranie__parsera")]
+        [TestCategory("ACCEPTANCE")]
+        public void Pobranie_parsera_bazy_MongoDB()
+        {
+            ParserConfiguration.Builder builder = ParserConfiguration.GetBuilder();
+            builder.SetParserName(MongoDBParser.Name);
+            builder.SetProperty(MongoDBParser.SERVER_IP_KEY, "ds057568.mongolab.com");
+            builder.SetProperty(MongoDBParser.SERVER_PORT_KEY, "57568");
+            builder.SetProperty(MongoDBParser.DATABASE_NAME_KEY, "dsourcesbase");
+            builder.SetProperty(MongoDBParser.USER_NAME_KEY, "dsourcesclient");
+            builder.SetProperty(MongoDBParser.USER_PASSWORD_KEY, "dsourcesclient");
+            builder.SetProperty(MongoDBParser.COLLECTION_NAME_KEY, "sampledata");
+            builder.SetProperty(MongoDBParser.FIELD_NAMES_KEY, "Region, Rep, Item, Units, Cost, Total");
+            builder.SetProperty(MongoDBParser.COLUMN_OBJECT_TYPES_KEY, "StringDimension,StringDimension,StringDimension, IntegerFact,FloatFact, FloatFact");
+            Parser mongoDB = facade.GetParser(builder.Build());
+            Check(mongoDB);
+        }
+
+        [TestMethod]
+        [TestCategory("PostgreSQLParser")]
+        [TestCategory("Pobranie__parsera")]
+        [TestCategory("ACCEPTANCE")]
+        public void Pobranie_parsera_bazy_PostreSQL()
+        {
+            ParserConfiguration.Builder builder = ParserConfiguration.GetBuilder();
+            builder.SetParserName(PostgreSQLParser.Name);
+            builder.SetProperty(PostgreSQLParser.SERVER_IP_KEY, "localhost");
+            builder.SetProperty(PostgreSQLParser.SERVER_PORT_KEY, "5432");
+            builder.SetProperty(PostgreSQLParser.DATABASE_NAME_KEY, "dsourcesbase");
+            builder.SetProperty(PostgreSQLParser.USER_NAME_KEY, "dsourcesclient");
+            builder.SetProperty(PostgreSQLParser.USER_PASSWORD_KEY, "dsourcesclient");
+            builder.SetProperty(PostgreSQLParser.REQUEST_KEY, "select region, rep, item, units, cost, total from sampledata");
+            builder.SetProperty(PostgreSQLParser.COLUMN_OBJECT_TYPES_KEY, "StringDimension,StringDimension,StringDimension, IntegerFact,FloatFact, FloatFact");
+            Parser postgres = facade.GetParser(builder.Build());
+            Check(postgres);
+        }
+    }
+}

@@ -2,6 +2,7 @@ C:\Users\Mateusz\Documents\Visual Studio 2012\Projects\DSv2\DSourcesTests\bin\x6
 C:\Users\Mateusz\Documents\Visual Studio 2012\Projects\DSv2\DSourcesTests\bin\x64\Debug\DSourcesTests.pdb
 C:\Users\Mateusz\Documents\Visual Studio 2012\Projects\DSv2\DSourcesTests\bin\x64\Debug\DSourcesModule.dll
 C:\Users\Mateusz\Documents\Visual Studio 2012\Projects\DSv2\DSourcesTests\bin\x64\Debug\NMock2.dll
+C:\Users\Mateusz\Documents\Visual Studio 2012\Projects\DSv2\DSourcesTests\bin\x64\Debug\nunit.framework.dll
 C:\Users\Mateusz\Documents\Visual Studio 2012\Projects\DSv2\DSourcesTests\bin\x64\Debug\UDM.dll
 C:\Users\Mateusz\Documents\Visual Studio 2012\Projects\DSv2\DSourcesTests\bin\x64\Debug\MongoDB.Driver.dll
 C:\Users\Mateusz\Documents\Visual Studio 2012\Projects\DSv2\DSourcesTests\bin\x64\Debug\MongoDB.Bson.dll
@@ -11,6 +12,7 @@ C:\Users\Mateusz\Documents\Visual Studio 2012\Projects\DSv2\DSourcesTests\bin\x6
 C:\Users\Mateusz\Documents\Visual Studio 2012\Projects\DSv2\DSourcesTests\bin\x64\Debug\DSourcesModule.pdb
 C:\Users\Mateusz\Documents\Visual Studio 2012\Projects\DSv2\DSourcesTests\bin\x64\Debug\NMock2.pdb
 C:\Users\Mateusz\Documents\Visual Studio 2012\Projects\DSv2\DSourcesTests\bin\x64\Debug\NMock2.xml
+C:\Users\Mateusz\Documents\Visual Studio 2012\Projects\DSv2\DSourcesTests\bin\x64\Debug\nunit.framework.xml
 C:\Users\Mateusz\Documents\Visual Studio 2012\Projects\DSv2\DSourcesTests\bin\x64\Debug\UDM.pdb
 C:\Users\Mateusz\Documents\Visual Studio 2012\Projects\DSv2\DSourcesTests\obj\x64\Debug\DSourcesTests.csprojResolveAssemblyReference.cache
 C:\Users\Mateusz\Documents\Visual Studio 2012\Projects\DSv2\DSourcesTests\obj\x64\Debug\DSourcesTests.dll

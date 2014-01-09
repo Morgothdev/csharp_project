@@ -5,5 +5,7 @@ C:\Users\Mateusz\Documents\Visual Studio 2012\Projects\DSv2\DSourcesModule\bin\x
 C:\Users\Mateusz\Documents\Visual Studio 2012\Projects\DSv2\DSourcesModule\bin\x64\Debug\Mono.Security.dll
 C:\Users\Mateusz\Documents\Visual Studio 2012\Projects\DSv2\DSourcesModule\bin\x64\Debug\MySql.Data.dll
 C:\Users\Mateusz\Documents\Visual Studio 2012\Projects\DSv2\DSourcesModule\bin\x64\Debug\Npgsql.dll
+C:\Users\Mateusz\Documents\Visual Studio 2012\Projects\DSv2\DSourcesModule\bin\x64\Debug\nunit.framework.dll
+C:\Users\Mateusz\Documents\Visual Studio 2012\Projects\DSv2\DSourcesModule\bin\x64\Debug\nunit.framework.xml
 C:\Users\Mateusz\Documents\Visual Studio 2012\Projects\DSv2\DSourcesModule\obj\x64\Debug\DSourcesModule.dll
 C:\Users\Mateusz\Documents\Visual Studio 2012\Projects\DSv2\DSourcesModule\obj\x64\Debug\DSourcesModule.pdb

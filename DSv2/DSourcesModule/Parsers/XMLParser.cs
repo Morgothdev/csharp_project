@@ -98,7 +98,7 @@ namespace DSources.Parsers
         {
             XDocument doc = XDocument.Load(GenerateStreamFromString(string.Concat("<temp>", line, "</temp>")));
             List<String> elements = new List<string>();
-            
+
             XElement[] nodes = doc.Element("temp").Elements(columnNameLabel).ToArray();
             foreach (XElement node in nodes)
             {
@@ -112,8 +112,5 @@ namespace DSources.Parsers
 
             return elements;
         }
-
-        internal override string parserName { get { return "XML"; } }
-
     }
 }

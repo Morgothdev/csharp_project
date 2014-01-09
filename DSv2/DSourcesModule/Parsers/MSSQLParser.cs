@@ -20,11 +20,9 @@ namespace DSources.Parsers
         internal static string Name = "MSSQL DataBase";
         internal override bool IsFinal { get { return true; } }
 
-        internal override string parserName { get { return "MSSQL"; } }
-
         internal override InternalParser ClonePrototype()
         {
-            InternalParser nev = new MySQLParser();
+            InternalParser nev = new MSSQLParser();
             nev.Init();
             return nev;
         }

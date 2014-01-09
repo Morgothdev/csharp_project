@@ -54,7 +54,5 @@ namespace DSources.Parsers
         {
             return line.Split(',').Select(s => s.Trim()).ToList();
         }
-
-        internal override string parserName { get { return "CSV"; } }
     }
 }

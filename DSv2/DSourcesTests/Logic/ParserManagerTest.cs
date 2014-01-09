@@ -4,6 +4,7 @@ using NMock2;
 using System.Reflection;
 using System.Collections.Generic;
 using DSources.Parsers;
+using System.Linq;
 
 
 namespace DSources.Logic
@@ -87,6 +88,15 @@ namespace DSources.Logic
             tested.AcceptParsersCollection(loadedParsers);
             Assert.IsTrue(tested.GetParsersInfo().Count == 0);
             mockery.VerifyAllExpectationsHaveBeenMet();
+        }
+
+        [TestMethod]
+        [TestCategory("ParserManager")]
+        [TestCategory("Implemented")]
+        public void TestReturningStubParserWhenNullPointer()
+        {
+            ParsersManager tested = ParsersManager.Instance;
+            Assert.IsInstanceOfType(tested.GetParser(null), typeof(StubParser));
         }
 
     }

@@ -17,23 +17,28 @@ namespace DSources.Logic
     [SerializableAttribute]
     public class ParserConfiguration
     {
-        internal IDictionary<string, string> _properties;
+        private IDictionary<string, string> _properties;
         
         /**
          * Budowniczy konfiguracji parsera.
          * Dostępny ze statycznego gettera w ParserConfiguration.
-         * Główna metoda to SetProperty, za pomocą któej klient ustawia kolejne wartości.
+         * Główna metoda to SetProperty, za pomocą której klient ustawia kolejne wartości.
          * Po czym wywołanie Build zwraca zbudowaną konfigurację.
          */
         public interface Builder
         {
-            void SetProperty(string Key, string Value);
-            void SetParserName(string Name);
+            ParserConfiguration.Builder SetProperty(string Key, string Value);
+            ParserConfiguration.Builder SetParserName(string Name);
             ParserConfiguration Build();
         }
 
         public static ParserConfiguration.Builder GetBuilder()    {
             return new BuilderImpl();
+        }
+
+        internal IDictionary<string, string> getProperties()
+        {
+            return _properties;
         }
 
         internal void SetProperties(IDictionary<String, String> Properties)
@@ -77,15 +82,18 @@ namespace DSources.Logic
     {
         private IDictionary<String, String> properties = new Dictionary<String, String>();
 
+        public BuilderImpl() { if (R.DEBUG) { Console.WriteLine("builder created"); } }
 
-        public void SetProperty(string Key, string Value)
+        public ParserConfiguration.Builder SetProperty(string Key, string Value)
         {
             if (Key == null || Value == null)
             {
                 throw new NullReferenceException();
             }
+            if (R.DEBUG) { Console.WriteLine("setting propety: " + Key+"="+Value); }
             properties.Remove(Key);
             properties.Add(Key, Value);
+            return this;
         }
 
         public ParserConfiguration Build()
@@ -96,9 +104,11 @@ namespace DSources.Logic
         }
 
 
-        public void SetParserName(string Name)
+        public ParserConfiguration.Builder SetParserName(string Name)
         {
+            if (R.DEBUG) { Console.WriteLine("setting parser name=" + Name);  }
             SetProperty("name", Name);
+            return this;
         }
     }
 }

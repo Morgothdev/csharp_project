@@ -22,8 +22,6 @@ namespace DSources.Parsers
 
         internal override bool IsFinal { get { return true; } }
 
-        internal override string parserName { get { return "PostgreSQL"; } }
-
         internal override InternalParser ClonePrototype()
         {
             InternalParser nev = new PostgreSQLParser();

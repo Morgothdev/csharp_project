@@ -64,12 +64,6 @@ namespace DSources.Logic
         }
 
         public MyType() { }
-
-        public virtual bool IsAbstract
-        {
-            get { return DecoratedType.IsAbstract; }
-        }
-
         /**
          * Zwraca domyslny bezargumentowy konstruktor udekorowanego typu
          */

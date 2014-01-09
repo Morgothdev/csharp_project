@@ -60,7 +60,6 @@ namespace DSources.Logic
                 return new StubParser();
             }
 
-
             InternalParser result;
             if (configuration.GetParserName() == null)
             {

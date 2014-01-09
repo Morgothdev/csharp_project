@@ -16,21 +16,9 @@ namespace DSources.Parsers
     {
         internal DbConnection connectionToBase;
 
-        internal override bool IsFinal { get { return false; } }
-
         internal abstract DbConnectionStringBuilder getDbConnectionStringBuilder();
         internal abstract DbConnection getDbConnection(string connectionString);
         internal abstract DbCommand getDbCommand(string sql, DbConnection connection);
-
-        internal override InternalParser ClonePrototype()
-        {
-            throw new NotSupportedException();
-        }
-
-        internal override void Init()
-        {
-            base.Init();
-        }
 
         internal override void ConfigureItSelf(Logic.ParserConfiguration configuration)
         {
@@ -53,7 +41,7 @@ namespace DSources.Parsers
             catch (Exception e)
             {
                 problems.Add(e.Message);
-                if (R.DEBUG) Console.WriteLine("error connecting to base sql");
+                if (R.DEBUG) { Console.WriteLine("error connecting to base sql"); Console.WriteLine(e.Message); Console.WriteLine(e); }
             }
         }
 

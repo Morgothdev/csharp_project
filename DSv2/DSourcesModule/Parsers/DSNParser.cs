@@ -12,6 +12,19 @@ namespace DSources.Parsers
 {
     internal enum DataSourceType { System, User }
 
+    /**
+     * Parser źródeł DSN (Data Source Name).<br>
+     * Używa zdefiniowanych w systemie źródeł DSN zarówno systemowych jak i użytkownika<br>
+     * Podaje wszystkie odczytane z rejestru systemowego w ParserArgumentInfo.AdditionalData<br>
+     * Wymaga podania argumentów do połączenia:
+     * <ul>
+     * <li>Dsn - nazwa źródła</li>
+     * </ul>
+     * oraz potrzebnych do pobrania danych:
+     * <ul>
+     * <li>request do wykonania</li>
+     * </ul>
+     */
     class DSNParser : AbstractParser, DbReadable
     {
 
@@ -68,20 +81,23 @@ namespace DSources.Parsers
                 }
             }
 
-            OdbcConnectionStringBuilder builder = new OdbcConnectionStringBuilder();
-            builder.Dsn = dnsName;
-            if (R.DEBUG) Console.WriteLine("used constr: || " + builder.ConnectionString + " ||");
-            connectionToBase = new OdbcConnection(builder.ConnectionString);
+            if (IsValid)
+            {
+                OdbcConnectionStringBuilder builder = new OdbcConnectionStringBuilder();
+                builder.Dsn = dnsName;
+                if (R.DEBUG) Console.WriteLine("used constr: || " + builder.ConnectionString + " ||");
+                connectionToBase = new OdbcConnection(builder.ConnectionString);
 
-            try
-            {
-                connectionToBase.Open();
-                connectionToBase.Close();
-            }
-            catch (Exception e)
-            {
-                problems.Add(e.Message);
-                if (R.DEBUG) Console.WriteLine("error connecting to base sql");
+                try
+                {
+                    connectionToBase.Open();
+                    connectionToBase.Close();
+                }
+                catch (Exception e)
+                {
+                    problems.Add(e.Message);
+                    if (R.DEBUG) Console.WriteLine("error connecting to base sql");
+                }
             }
         }
 

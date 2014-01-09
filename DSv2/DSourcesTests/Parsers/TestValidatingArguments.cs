@@ -26,7 +26,7 @@ namespace DSources.Parsers
         List<ParserConfiguration> prepareParserConfigurationsWithMissingArgument(ParserConfiguration fullValid)
         {
             List<ParserConfiguration> result = new List<ParserConfiguration>();
-            IEnumerator<KeyValuePair<string,string>> en = fullValid._properties.GetEnumerator();
+            IEnumerator<KeyValuePair<string,string>> en = fullValid.getProperties().GetEnumerator();
             while (en.MoveNext())
             {
                 KeyValuePair<string, string> pair = en.Current;
@@ -49,6 +49,7 @@ namespace DSources.Parsers
 
         [TestMethod]
         [TestCategory("CSVParser")]
+        [TestCategory("ACCEPTANCE")]
         [TestCategory("Validating presence of arguments")]
         public void MissingArgumentsCSV()
         {
@@ -56,12 +57,12 @@ namespace DSources.Parsers
             builder.SetProperty(CSVParser.FILE_PATH_KEY, "C:/tests/SampleData.csv");
             builder.SetProperty(CSVParser.COLUMN_OBJECT_TYPES_KEY, "StringDimension,StringDimension,StringDimension, IntegerFact,FloatFact, FloatFact");
             ParserConfiguration conf = builder.Build();
-            Console.WriteLine("size " + conf._properties.Count);
+            Console.WriteLine("size " + conf.getProperties().Count);
             foreach (ParserConfiguration notValid in prepareParserConfigurationsWithMissingArgument(conf))
             {
                 CSVParser tested = new CSVParser();
                 tested.Init();
-                Console.WriteLine("size " + notValid._properties.Count);
+                Console.WriteLine("size " + notValid.getProperties().Count);
                 tested.ConfigureItSelf(notValid);
                 Assert.IsFalse(tested.IsValid);
                 printProblems(tested.Problems);
@@ -71,6 +72,7 @@ namespace DSources.Parsers
 
         [TestMethod]
         [TestCategory("XLSParser")]
+        [TestCategory("ACCEPTANCE")]
         [TestCategory("Validating presence of arguments")]
         public void MissingArgumentsXLS()
         {
@@ -92,6 +94,7 @@ namespace DSources.Parsers
         }
         
         [TestMethod]
+        [TestCategory("ACCEPTANCE")]
         [TestCategory("XMLParser")]
         [TestCategory("Validating presence of arguments")]
         public void MissingArgumentsXML()
@@ -114,14 +117,15 @@ namespace DSources.Parsers
 
         [TestMethod]
         [TestCategory("MSSQLParser")]
+        [TestCategory("ACCEPTANCE")]
         [TestCategory("Validating presence of arguments")]
         public void MissingArgumentsMSSQL()
         {
             ParserConfiguration.Builder builder = ParserConfiguration.GetBuilder();
-            builder.SetProperty(MSSQLParser.SERVER_IP_KEY, "dsourcesbase.mssql.somee.com");
+            builder.SetProperty(MSSQLParser.SERVER_IP_KEY, "KOMP\\SQLEXPRESS");
             builder.SetProperty(MSSQLParser.DATABASE_NAME_KEY, "dsourcesbase");
             builder.SetProperty(MSSQLParser.USER_NAME_KEY, "dsourcesclient");
-            builder.SetProperty(MSSQLParser.USER_PASSWORD_KEY, "dsourcesclient");
+            builder.SetProperty(MSSQLParser.USER_PASSWORD_KEY, "client123");
             builder.SetProperty(MSSQLParser.REQUEST_KEY, "select region, rep, item, units, cost, total from sampledata");
             builder.SetProperty(MSSQLParser.COLUMN_OBJECT_TYPES_KEY, "StringDimension,StringDimension,StringDimension, IntegerFact,FloatFact, FloatFact");
             ParserConfiguration conf = builder.Build();
@@ -137,7 +141,30 @@ namespace DSources.Parsers
         }
 
         [TestMethod]
+        [TestCategory("DSNParser")]
+        [TestCategory("ACCEPTANCE")]
+        [TestCategory("Validating presence of arguments")]
+        public void MissingArgumentsDSN()
+        {
+            ParserConfiguration.Builder builder = ParserConfiguration.GetBuilder();
+            builder.SetProperty(DSNParser.DSN_NAME_KEY, "DSB_pg");
+            builder.SetProperty(DSNParser.REQUEST_KEY, "select region, rep, item, units, cost, total from sampledata");
+            builder.SetProperty(DSNParser.COLUMN_OBJECT_TYPES_KEY, "StringDimension,StringDimension,StringDimension, IntegerFact,FloatFact, FloatFact");
+            ParserConfiguration conf = builder.Build();
+            foreach (ParserConfiguration notValid in prepareParserConfigurationsWithMissingArgument(conf))
+            {
+                DSNParser tested = new DSNParser();
+                tested.Init();
+                //oCnsole.WriteLine("size " + notValid._properties.Count);
+                tested.ConfigureItSelf(notValid);
+                Assert.IsFalse(tested.IsValid);
+                printProblems(tested.Problems);
+            }
+        }
+
+        [TestMethod]
         [TestCategory("PostgreSQLParser")]
+        [TestCategory("ACCEPTANCE")]
         [TestCategory("Validating presence of arguments")]
         public void MissingArgumentPostgreSQL()
         {
@@ -162,6 +189,7 @@ namespace DSources.Parsers
         }
 
         [TestMethod]
+        [TestCategory("ACCEPTANCE")]
         [TestCategory("MySQLParser")]
         [TestCategory("Validating presence of arguments")]
         public void MissingArgumentsMySQLParser()
@@ -188,6 +216,7 @@ namespace DSources.Parsers
 
         [TestMethod]
         [TestCategory("MongoDBParser")]
+        [TestCategory("ACCEPTANCE")]
         [TestCategory("Validating presence of arguments")]
         public void MissingArgumentsMongoDBParser()
         {

@@ -1,8 +1,9 @@
-C:\Users\Mateusz\Documents\Visual Studio 2012\Projects\DSv2\DSourcesModule\obj\Debug\DSources.csprojResolveAssemblyReference.cache
 C:\Users\Mateusz\Documents\Visual Studio 2012\Projects\DSv2\DSourcesModule\bin\Debug\DSourcesModule.dll
 C:\Users\Mateusz\Documents\Visual Studio 2012\Projects\DSv2\DSourcesModule\bin\Debug\MongoDB.Bson.dll
 C:\Users\Mateusz\Documents\Visual Studio 2012\Projects\DSv2\DSourcesModule\bin\Debug\MongoDB.Driver.dll
 C:\Users\Mateusz\Documents\Visual Studio 2012\Projects\DSv2\DSourcesModule\bin\Debug\Mono.Security.dll
 C:\Users\Mateusz\Documents\Visual Studio 2012\Projects\DSv2\DSourcesModule\bin\Debug\MySql.Data.dll
 C:\Users\Mateusz\Documents\Visual Studio 2012\Projects\DSv2\DSourcesModule\bin\Debug\Npgsql.dll
+C:\Users\Mateusz\Documents\Visual Studio 2012\Projects\DSv2\DSourcesModule\bin\Debug\nunit.framework.dll
+C:\Users\Mateusz\Documents\Visual Studio 2012\Projects\DSv2\DSourcesModule\bin\Debug\nunit.framework.xml
 C:\Users\Mateusz\Documents\Visual Studio 2012\Projects\DSv2\DSourcesModule\obj\Debug\DSourcesModule.dll

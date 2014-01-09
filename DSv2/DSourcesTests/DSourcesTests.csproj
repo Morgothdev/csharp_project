@@ -57,9 +57,31 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="NMock2">
       <HintPath>..\..\..\myLibraries\NMock2\bin\Release\NMock2.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="UDM, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
@@ -80,12 +102,18 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="AcceptanceTests.cs" />
+    <Compile Include="ACCEPTANCE\Odczyt_zrodla_danych.cs" />
+    <Compile Include="ACCEPTANCE\Lista_parserow_i_Lista_argumentow_parsera.cs" />
+    <Compile Include="ACCEPTANCE\Pobranie_parsera_źródła_danych.cs" />
     <Compile Include="Logic\ParsersLoaderTest.cs" />
+    <Compile Include="Parsers\ParserBridgeTests.cs" />
     <Compile Include="Parsers\ParserCoreTest.cs" />
     <Compile Include="Parsers\ParsersTests.cs" />
     <Compile Include="Parsers\TestValidatingArguments.cs" />
     <Compile Include="Parsers\TestValidatingArgumentsDuringConfiguring.cs" />
+    <Compile Include="Parsers\StubParserTest.cs" />
+    <Compile Include="Parsers\TestExceptionsWhenReadDataFromParsers.cs" />
+    <Compile Include="Parsers\AbstractParserNotImplementedMethodsTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Parsers\ParserArgumentInfoTest.cs" />
     <Compile Include="Parsers\ParserInfoTest.cs" />

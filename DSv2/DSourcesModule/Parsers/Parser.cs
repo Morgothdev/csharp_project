@@ -58,7 +58,7 @@ namespace DSources.Parsers
         internal abstract Table Parse();
         protected ISet<String> problems = new HashSet<String>();
 
-        internal ICollection<string> Problems
+        internal virtual ICollection<string> Problems
         {
             get { return new ReadOnlyCollection<string>(problems.ToList()); }
         }
@@ -85,17 +85,17 @@ namespace DSources.Parsers
 
         internal override InternalParser ClonePrototype()
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
 
         internal override void ConfigureItSelf(ParserConfiguration configuration)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
 
         internal override Table Parse()
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
 
 
@@ -107,7 +107,7 @@ namespace DSources.Parsers
 
         internal  override void Init()
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
     }
 }

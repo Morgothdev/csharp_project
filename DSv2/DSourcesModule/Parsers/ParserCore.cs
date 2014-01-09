@@ -136,7 +136,7 @@ namespace DSources.Parsers
             return new Table(tableName, null, resultColumns);
         }
 
-        private object CastToValidType(string x, DataType dataType)
+        internal object CastToValidType(string x, DataType dataType)
         {
             switch (dataType)
             {
@@ -162,6 +162,7 @@ namespace DSources.Parsers
             checkCompleteData();
 
             StringBuilder result = new StringBuilder();
+
             for (int i = 0; i < columns.Count; ++i)
             {
                 result.Append("Column, name: \"" + columnNames[i] + "\", role: " + columnDataTypes[i] + ", cells: ");

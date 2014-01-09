@@ -13,7 +13,7 @@ namespace DSources.Parsers
     /**
      * Niefunkcjonalny czytnik. Zawierający bazową funkcjonalność oraz metody szablonowe.
      */
-    internal class AbstractParser : InternalParser
+    internal abstract class AbstractParser : InternalParser
     {
         public static String COLUMN_OBJECT_TYPES_KEY = "Object type in columns";
 
@@ -23,25 +23,15 @@ namespace DSources.Parsers
 
         internal override ParserInfo Arguments { get { return _arguments; } set { throw new NotSupportedException(); } }
 
-        internal override bool IsFinal { get { return false; } }
-
         public AbstractParser()
         {
             ParserCore = new ParserCore();
         }
 
-        internal override InternalParser ClonePrototype()
-        {
-            throw new NotSupportedException();
-        }
-
-
         protected DataType[] objectTypes;
 
         internal override void ConfigureItSelf(Logic.ParserConfiguration configuration)
         {
-            Console.WriteLine(String.Join(", ", configuration._properties.Keys));
-            Console.WriteLine(String.Join(" || ", configuration._properties.Values));
 
             if (Arguments.ContainsArgument(COLUMN_OBJECT_TYPES_KEY))
             {
@@ -112,7 +102,7 @@ namespace DSources.Parsers
             Read();
         }
 
-        internal virtual void Read() { throw new NotSupportedException(); }
+        internal abstract void Read();
 
         private void InitParserCore()
         {
@@ -130,30 +120,6 @@ namespace DSources.Parsers
                 ParserCore.SetColumnType(objectTypes[i]);
                 ParserCore.GotoNextColumn();
             }
-        }
-
-
-
-        internal virtual string parserName { get { return "Asbtract"; } }
-
-        internal bool IsTheSameAs(AbstractParser another)
-        {
-            return another.parserName.Equals(parserName);
-        }
-
-        internal virtual List<string> SplitSecondNest(string firstNest)
-        {
-            throw new NotImplementedException();
-        }
-
-        internal virtual string ReadData()
-        {
-            throw new NotImplementedException();
-        }
-
-        internal virtual List<string> SplitFirstNest(string Data)
-        {
-            throw new NotImplementedException();
         }
     }
 }

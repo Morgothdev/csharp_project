@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using UDM;
 
 namespace DSources.Parsers
 {
@@ -165,5 +166,46 @@ namespace DSources.Parsers
             }
             Assert.Fail();
         }
+
+
+        [TestMethod]
+        [TestCategory("ParserCore")]
+        [TestCategory("Implemented")]
+        public void SettingTableName()
+        {
+            string name = "TestTableName";
+            tested.SetTableName(name);
+            Table t = tested.Build();
+            Assert.AreEqual(t.Name, name);
+        }
+
+
+        [TestMethod]
+        [TestCategory("ParserCore")]
+        [TestCategory("Implemented")]
+        public void CastingToValidType()
+        {
+            Assert.IsInstanceOfType(tested.CastToValidType("123.45", DataType.FloatFact), typeof(Double));
+            Assert.IsInstanceOfType(tested.CastToValidType("ala ma kota", DataType.StringDimension), typeof(String));
+            Assert.IsInstanceOfType(tested.CastToValidType("3245", DataType.IntegerFact), typeof(Int64));
+            Assert.IsInstanceOfType(tested.CastToValidType("ala ma kota", DataType.DateDimension), typeof(String));
+        }
+
+        string o = "Column, name: \"pierwsza\", role: IntegerFact, cells: 457 | "+System.Environment.NewLine+"Column, name: \"druga\", role: StringDimension, cells: druga-komorka | "+System.Environment.NewLine;
+
+        [TestMethod]
+        [TestCategory("ParserCore")]
+        [TestCategory("Implemented")]
+        public void TestToString()
+        {
+            tested.SetColumnName("pierwsza");
+            tested.SetColumnName("druga");
+            tested.SetColumnType(DataType.IntegerFact);
+            tested.SetColumnType(DataType.StringDimension);
+            tested.AddCellInRowAndGoToNextColumn("457");
+            tested.AddCellInRowAndGoToNextColumn("druga-komorka");
+            Assert.AreEqual(tested.ToString(), o);
+        }
+
     }
 }

@@ -8,6 +8,6 @@ namespace DSources
 {
     class R
     {
-        public static bool DEBUG = false;
+        public static bool DEBUG = true;
     }
 }

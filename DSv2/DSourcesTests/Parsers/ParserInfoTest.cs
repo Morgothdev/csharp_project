@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NMock2;
+using System.Linq;
 
 namespace DSources.Parsers
 {
@@ -17,7 +18,9 @@ namespace DSources.Parsers
             ParserInfo tested = new ParserInfo();
             tested.AddArgument(mockedArg);
             Assert.IsTrue(tested.GetNecessaryArgumentsAsCollection().Count == 1);
+            Assert.IsTrue(tested.GetNecessaryArguments().Length == 1);
             Assert.IsTrue(tested.GetNecessaryArgumentsAsCollection().Contains(mockedArg));
+            Assert.IsTrue(tested.GetNecessaryArguments().ToList().Contains(mockedArg));
         }
 
         [TestMethod]
@@ -32,8 +35,12 @@ namespace DSources.Parsers
             tested.AddArgument(mockedArg);
             tested.AddArgument(mockedArg2);
             Assert.IsTrue(tested.GetNecessaryArgumentsAsCollection().Count == 2);
+            Assert.IsTrue(tested.GetNecessaryArguments().Length == 2);
+            Assert.IsTrue(tested.GetNecessaryArguments().ToList().Contains(mockedArg));
+            Assert.IsTrue(tested.GetNecessaryArguments().ToList().Contains(mockedArg2)); 
             Assert.IsTrue(tested.GetNecessaryArgumentsAsCollection().Contains(mockedArg));
             Assert.IsTrue(tested.GetNecessaryArgumentsAsCollection().Contains(mockedArg2));
+
         }
 
         [TestMethod]
@@ -44,6 +51,7 @@ namespace DSources.Parsers
             ParserInfo tested = new ParserInfo();
             Assert.IsNotNull(tested.GetNecessaryArgumentsAsCollection());
             Assert.IsTrue(tested.GetNecessaryArgumentsAsCollection().Count == 0);
+            Assert.IsTrue(tested.GetNecessaryArguments().Length == 0);
         }
 
         private static ParserArgumentInfo CreateArgument(Mockery mockery, String Name, ArgType propType, string description)
@@ -72,12 +80,17 @@ namespace DSources.Parsers
             Assert.IsTrue(tested.GetNecessaryArgumentsAsCollection().Contains(mockedArg));
             Assert.IsTrue(tested.GetNecessaryArgumentsAsCollection().Contains(mockedArg2));
             Assert.IsTrue(tested.GetNecessaryArgumentsAsCollection().Contains(toDelete));
+            Assert.IsTrue(tested.GetNecessaryArguments().Length == 3);
+            Assert.IsTrue(tested.GetNecessaryArguments().ToList().Contains(mockedArg));
+            Assert.IsTrue(tested.GetNecessaryArguments().ToList().Contains(mockedArg2));
+            Assert.IsTrue(tested.GetNecessaryArguments().ToList().Contains(toDelete)); 
             tested.RemoveArgument("del");
             Assert.IsTrue(tested.GetNecessaryArgumentsAsCollection().Count == 2);
             Assert.IsTrue(tested.GetNecessaryArgumentsAsCollection().Contains(mockedArg));
             Assert.IsTrue(tested.GetNecessaryArgumentsAsCollection().Contains(mockedArg2));
-            
-
+            Assert.IsTrue(tested.GetNecessaryArguments().Length == 2);
+            Assert.IsTrue(tested.GetNecessaryArguments().ToList().Contains(mockedArg));
+            Assert.IsTrue(tested.GetNecessaryArguments().ToList().Contains(mockedArg2));
         }
     }
 }

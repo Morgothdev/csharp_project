@@ -19,7 +19,7 @@ namespace DSources.Logic
             foreach (Type t in types)
             {
                //Console.WriteLine(t);
-                if (!t.IsInterface && !t.IsAbstract)
+                if (!t.IsAbstract)
                 {
                     result.Add(new MyType(t));
                 }

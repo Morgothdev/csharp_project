@@ -17,20 +17,26 @@ namespace DSources.Parsers
 
         private void Check(InternalParser tested)
         {
-            try
+            if (tested.IsValid)
             {
-                Table t = tested.Parse();
-                WriteTable(t);
-                Console.WriteLine(ou);
-                Assert.AreEqual(ou, tableToString(t));
-                Console.WriteLine(tableToXmlString(t));
+                try
+                {
+                    Table t = tested.Parse();
+                    WriteTable(t);
+                    Console.WriteLine(ou);
+                    Assert.AreEqual(ou, tableToString(t));
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("problems.Count=" + tested.Problems.Count);
+                    Console.WriteLine(e.Message);
+                    Console.WriteLine(String.Join("\n", tested.Problems.ToArray()));
+                    Assert.Fail();
+                }
             }
-            catch (Exception e)
+            else
             {
-                Console.WriteLine("problems.Count=" + tested.Problems.Count);
-                Console.WriteLine(e.Message);
-
-                Console.WriteLine(String.Join("\n", tested.Problems.ToArray()));
+                Console.WriteLine("Parser is not valid!!!!!!!!!!!!");
                 Assert.Fail();
             }
         }
@@ -180,6 +186,21 @@ namespace DSources.Parsers
         }
 
         [TestMethod]
+        [TestCategory("DSNParser")]
+        [TestCategory("TestValidReadingSampleData")]
+        public void DSNReadingTestData()
+        {
+            DSNParser tested = new DSNParser();
+            ParserConfiguration.Builder builder = ParserConfiguration.GetBuilder();
+            tested.Init();
+            builder.SetProperty(DSNParser.DSN_NAME_KEY, "DSB_pg");
+            builder.SetProperty(DSNParser.REQUEST_KEY, "select region, rep, item, units, cost, total from sampledata");
+            builder.SetProperty(DSNParser.COLUMN_OBJECT_TYPES_KEY, "StringDimension,StringDimension,StringDimension, IntegerFact,FloatFact, FloatFact");
+            tested.ConfigureItSelf(builder.Build());
+            Check(tested);
+        }
+
+        [TestMethod]
         [TestCategory("MySQLParser")]
         [TestCategory("TestValidReadingSampleData")]
         public void MySQLDataBaseParserReadingData()
@@ -202,7 +223,7 @@ namespace DSources.Parsers
         }
 
 
-        //[TestMethod]
+        [TestMethod]
         [TestCategory("MSSQLParser")]
         [TestCategory("TestValidReadingSampleData")]
         public void MSSQLDataBaseParserReadingData()
@@ -212,10 +233,10 @@ namespace DSources.Parsers
             tested.Init();
             ParserConfiguration.Builder builder = ParserConfiguration.GetBuilder();
             builder.SetParserName(tested.Arguments.ParserName);
-            builder.SetProperty(MSSQLParser.SERVER_IP_KEY, "dsourcesbase.mssql.somee.com");
-            builder.SetProperty(MSSQLParser.DATABASE_NAME_KEY,"dsourcesbase");
+            builder.SetProperty(MSSQLParser.SERVER_IP_KEY, "KOMP\\SQLEXPRESS");
+            builder.SetProperty(MSSQLParser.DATABASE_NAME_KEY, "dsourcesbase");
             builder.SetProperty(MSSQLParser.USER_NAME_KEY, "dsourcesclient");
-            builder.SetProperty(MSSQLParser.USER_PASSWORD_KEY, "dsourcesclient");
+            builder.SetProperty(MSSQLParser.USER_PASSWORD_KEY, "client123");
             builder.SetProperty(MSSQLParser.REQUEST_KEY, "select region, rep, item, units, cost, total from sampledata");
             builder.SetProperty(MSSQLParser.COLUMN_OBJECT_TYPES_KEY, "StringDimension,StringDimension,StringDimension, IntegerFact,FloatFact, FloatFact");
 
